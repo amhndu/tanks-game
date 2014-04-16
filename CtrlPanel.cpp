@@ -78,23 +78,24 @@ void CtrlPanel::step(float dt)
         else
             changePower( delta,pl );
         prevMouseX = mouse.x;
-        if(mouse.x <= 0) //to allow continuous moving the mouse while setting the angle
+        int mouse_margin = 15;
+        if(mouse.x < mouse_margin) //to allow continuous moving the mouse while setting the angle
         {
-            sf::Mouse::setPosition(sf::Vector2i(constants::windowWidth-2,mouse.y),Application::getWindow());
-            prevMouseX = constants::windowWidth-2;
+            sf::Mouse::setPosition(sf::Vector2i(constants::windowWidth-mouse_margin-1,mouse.y),Application::getWindow());
+            prevMouseX = constants::windowWidth-mouse_margin-1;
         }
-        else if(mouse.x >= constants::windowWidth-1)
+        else if(mouse.x > constants::windowWidth-mouse_margin-1)
         {
-            sf::Mouse::setPosition(sf::Vector2i(1,mouse.y),Application::getWindow());
-            prevMouseX = 0;
+            sf::Mouse::setPosition(sf::Vector2i(mouse_margin,mouse.y),Application::getWindow());
+            prevMouseX = mouse_margin;
         }
-        if(mouse.y <= 0)
+        if(mouse.y < mouse_margin)
         {
-            sf::Mouse::setPosition(sf::Vector2i(mouse.x,constants::windowHeight-2),Application::getWindow());
+            sf::Mouse::setPosition(sf::Vector2i(mouse.x,constants::windowHeight-mouse_margin-1),Application::getWindow());
         }
-        else if(mouse.y >= constants::windowHeight-2)
+        else if(mouse.y > constants::windowHeight-mouse_margin)
         {
-            sf::Mouse::setPosition(sf::Vector2i(mouse.x,1),Application::getWindow());
+            sf::Mouse::setPosition(sf::Vector2i(mouse.x,mouse_margin),Application::getWindow());
         }
         assert(_game.isPlayerTurn());
     }
