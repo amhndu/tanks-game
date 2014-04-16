@@ -7,7 +7,8 @@ enum TextureIdentifier
     ExplosionA,
     ExplosionB,
     TurretTexture,
-    TurretTarget
+    TurretTarget,
+    ArrowDownSprite
 };
 enum FontIdentifier
 {

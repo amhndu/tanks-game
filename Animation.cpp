@@ -105,7 +105,7 @@ void Animation::step(float dt)
 void Animation::handleCollision(WorldObject &b){}
 
 //Animation Creator
-std::unique_ptr<Animation> AnimationCreator::create(AnimationType t,sf::Vector2f position)
+std::unique_ptr<Animation> AnimationCreator::create(AnimationType t,const sf::Vector2f& position)
 {
     std::unique_ptr<Animation> anim(nullptr);
     switch(t)
@@ -119,7 +119,12 @@ std::unique_ptr<Animation> AnimationCreator::create(AnimationType t,sf::Vector2f
     case MissileExplosionB:
         {
             anim.reset(new Animation(ExplosionB,sf::Vector2i(64,64),position,1/10.0));
-            anim->setScale(80/64.0,80/64.0);
+        }
+        break;
+    case ArrowDown:
+        {
+            anim.reset(new Animation(ArrowDownSprite,sf::Vector2i(52,58),position,1/35.0,true));
+            anim->setScale(40/52.0,40/52.0);
         }
         break;
     }

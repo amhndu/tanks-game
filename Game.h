@@ -4,6 +4,7 @@
 #include "Land.h"
 #include "Player.h"
 #include "AppState.h"
+#include <cassert>
 
 class Game : public AppState
 {
@@ -15,9 +16,12 @@ public:
     void passEvent(sf::Event Event);
     void reset();
 
-    sf::Vector2f getLandNormal(int x,int y){ return land->getNormal(x,y); }
-    float getLandNormAng(int x,int y){ return land->getNormAngle(x,y); }
-    int getLandHeight(int x){ return land->getHeight(x); }
+    inline sf::Vector2f getLandNormal(int x,int y){ return land->getNormal(x,y); }
+    inline float getLandNormAng(int x,int y){ return land->getNormAngle(x,y); }
+    inline int getLandHeight(int x){ return land->getHeight(x); }
+
+    inline void incCounter() { ++counter; }
+    inline void decCounter() { --counter;assert(counter>=0); }
 
     WorldObject* addWorldObj(WorldObject* wo){ return world.addObj(wo); }
 

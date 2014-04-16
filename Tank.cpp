@@ -23,7 +23,8 @@ Tank::Tank() :
     lifeFill(sf::Vector2f()),
     freefall(true)
 {
-    Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
+    Application::getGame().incCounter();
+//    Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
     setPosition(sf::Vector2f());
     turret.setRotation(-45);
@@ -35,7 +36,8 @@ Tank::Tank() :
 Tank::~Tank()
 {
     if(freefall)
-        Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
+    Application::getGame().decCounter();
+//        Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
 }
 sf::RectangleShape Tank::getTankRect()
 {
@@ -123,7 +125,8 @@ void Tank::handleCollision(WorldObject &b)
                 tank.setRotation(std::fmod(90 - TO_DEG(ang),360) );
                 freefall = false;
                 velocity = sf::Vector2f();
-                Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
+                Application::getGame().decCounter();
+//                Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
                 setPosition(x0,h);
                 break;
             }
@@ -162,7 +165,8 @@ void Tank::step(float dt)
         if(tank.getPosition().y<constants::windowHeight-Application::getGame().getLandHeight(tank.getPosition().x))
         {
             freefall = true;
-            Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
+            Application::getGame().incCounter();
+//            Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
         }
         if(moving < 0)
             moveTank((moving = 0, lvelocity * dt * -1));
@@ -178,7 +182,8 @@ void Tank::reset()
     if(!freefall)
     {
         freefall = true;
-        Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
+        Application::getGame().incCounter();
+//        Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
     }
 }
 void Tank::setPosition(const sf::Vector2f& pos)

@@ -53,6 +53,7 @@ void Application::loadResources()
     textureMgr.load(ExplosionA,"data/ExplosionAsmall.png") &&
     textureMgr.load(TurretTarget,"data/target.png") &&
     textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
+    textureMgr.load(ArrowDownSprite,"data/arrowdown.png") &&
     fontMgr.load(Sensation,"data/sansation.ttf") ) )
         std::terminate();
     else

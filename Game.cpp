@@ -122,11 +122,7 @@ void Game::receiveMessage(const Message& msg)
     {
         landSliding = false;
     }
-    else if(msg.ID == "WeapObjCreated" || msg.ID == "TankFreeFall")
-    {
-        ++counter;
-    }
-    else if(msg.ID == "WeapObjDestroyed" || msg.ID == "TankOnLand")
+    else if( msg.ID == "TankOnLand")
     {
         --counter;
        assert(counter>=0);

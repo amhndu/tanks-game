@@ -17,11 +17,13 @@ Missile::Missile(double x, double y) : velocity(0, 0) , acceleration(0, constant
     projectile.setRadius(2.5);
     projectile.setFillColor(sf::Color::Magenta);
     projectile.setPosition(x, y);
-    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
+    Application::getGame().incCounter();
+//    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
 }
 Missile::~Missile()
 {
-    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
+    Application::getGame().decCounter();
+//    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
 }
 void Missile::setVelocity(double x, double y)
 {

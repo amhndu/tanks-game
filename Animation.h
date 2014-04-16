@@ -15,7 +15,7 @@ class Animation : public WorldObject
         inline void setRepeat(bool flag) { repeat = flag; }
         inline void setScale(double x,double y) { frameSpr.setScale(x,y); }
         inline sf::Vector2f getPosition() { return frameSpr.getPosition(); }
-        inline void setRepeat(const sf::Vector2f& newPos) { frameSpr.setPosition(newPos); }
+        inline void setPosition(const sf::Vector2f& pos) { frameSpr.setPosition(pos); }
         void setFrameSize(const sf::Vector2i& size);
         void setFrameSize(int x,int y);
         inline const sf::Vector2i& getFrameSize() { return frameSize;}
@@ -42,11 +42,12 @@ class Animation : public WorldObject
 enum AnimationType
 {
     MissileExplosionA,
-    MissileExplosionB
+    MissileExplosionB,
+    ArrowDown
 };
 
 namespace AnimationCreator
 {
-    std::unique_ptr<Animation> create(AnimationType t,sf::Vector2f position);
+    std::unique_ptr<Animation> create(AnimationType t,const sf::Vector2f& position = sf::Vector2f());
 }
 #endif // ANIMATION_H

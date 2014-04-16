@@ -10,11 +10,13 @@ Explosion::Explosion(AnimationType animType,sf::Vector2f pos,int r) :
 {
     expCircle.setOrigin(r,r);
     expCircle.setPosition(pos);
-    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
+    Application::getGame().incCounter();
+//    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
 }
 Explosion::~Explosion()
 {
-    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
+    Application::getGame().decCounter();
+//    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
 }
 void Explosion::handleCollision(WorldObject &b)
 {

@@ -2,6 +2,7 @@
 #define CtrlPanel_H
 #include "WorldObject.h"
 #include "Game.h"
+#include "Animation.h"
 
 class CtrlPanel : public WorldObject
 {
@@ -31,6 +32,8 @@ private:
     sf::Text fire;
     sf::RectangleShape gaugeBg;
     sf::RectangleShape gaugeFill;
+    sf::Sprite crosshair;
+    std::unique_ptr<Animation> currPlayerMarker;
 };
 
 #endif // CtrlPanel_H

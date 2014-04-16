@@ -1,5 +1,4 @@
 #include "CtrlPanel.h"
-#include "Target.h"
 #include "Application.h"
 #include <cmath>
 
@@ -20,7 +19,9 @@ CtrlPanel::CtrlPanel(Game& g) :
     power("Power : ",Application::getFont(Sensation),fontSize),
     fire("FIRE",Application::getFont(Sensation),fontSize),
     gaugeBg(sf::Vector2f(100,10)),
-    gaugeFill(sf::Vector2f(0,10))
+    gaugeFill(sf::Vector2f(0,10)),
+    crosshair(Application::getTexture(TurretTarget)),
+    currPlayerMarker(AnimationCreator::create(ArrowDown))
 {
     int xpadding = 30,ypadding = 30,lpadding = 5;
     int width = constants::windowWidth/3;
@@ -43,6 +44,7 @@ CtrlPanel::CtrlPanel(Game& g) :
     gaugeBg.setOutlineColor (sf::Color::Black);
     gaugeFill.setPosition   (gaugeBg.getPosition());
     gaugeFill.setFillColor  (sf::Color::Blue);
+    crosshair.setOrigin(-60,0);
 }
 void CtrlPanel::draw(sf::RenderTarget &target)
 {
@@ -55,6 +57,22 @@ void CtrlPanel::draw(sf::RenderTarget &target)
     target.draw(gaugeBg);
     target.draw(gaugeFill);
     target.draw(fire);
+    auto pl = _game.getCurrPlayer();
+    if(settingAngle)
+    {
+        if(pl)
+        {
+            crosshair.setPosition(pl->getTankPos());
+            crosshair.setRotation(pl->getTurretAngle());
+        }
+        target.draw(crosshair);
+    }
+    if(_game.isPlayerTurn())
+    {
+        if(pl)
+            currPlayerMarker->setPosition(pl->getTankPos()-sf::Vector2f(0,80));
+        currPlayerMarker->draw(target);
+    }
 }
 void CtrlPanel::step(float dt)
 {
@@ -62,6 +80,9 @@ void CtrlPanel::step(float dt)
     auto pl = _game.getCurrPlayer();
     if(pl == nullptr)
         return;
+
+    if(_game.isPlayerTurn())
+        currPlayerMarker->step(dt);
 
     if(p != _game.getPlayerIndex()+1)
     {
@@ -78,7 +99,7 @@ void CtrlPanel::step(float dt)
         else
             changePower( delta,pl );
         prevMouseX = mouse.x;
-        int mouse_margin = 15;
+        int mouse_margin = 20;
         if(mouse.x < mouse_margin) //to allow continuous moving the mouse while setting the angle
         {
             sf::Mouse::setPosition(sf::Vector2i(constants::windowWidth-mouse_margin-1,mouse.y),Application::getWindow());
@@ -107,9 +128,6 @@ void CtrlPanel::postSettingAngle()
     sf::Mouse::setPosition(mouseOldCoord,Application::getWindow());//set mouse back to position it was before setting angle
     Application::getWindow().setMouseCursorVisible(true);
     rotation.setStyle(sf::Text::Regular);
-    auto &targtGrp = Application::getMsgStream().getGroup("TargetGroup");
-    targtGrp.sendMessage(Message("Self Destruct"));
-    targtGrp.clear();
 }
 void CtrlPanel::initSettingAngle(Player *pl)
 {
@@ -118,9 +136,6 @@ void CtrlPanel::initSettingAngle(Player *pl)
     prevMouseX = mouseOldCoord.x;
     Application::getWindow().setMouseCursorVisible(false);
     rotation.setStyle(sf::Text::Bold);
-    auto target = Application::getGame().addWorldObj(new Target(*pl));
-    auto &targtGrp = Application::getMsgStream().getGroup("TargetGroup");
-    targtGrp.subscribe(target);
 }
 void CtrlPanel::changePower(int delta,Player *pl)
 {
