@@ -122,11 +122,6 @@ void Game::receiveMessage(const Message& msg)
     {
         landSliding = false;
     }
-    else if( msg.ID == "TankOnLand")
-    {
-        --counter;
-       assert(counter>=0);
-    }
     else if(msg.ID == "PlayerTurnOver")
     {
         if(++playerActive >= players.size())

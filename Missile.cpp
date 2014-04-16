@@ -18,12 +18,10 @@ Missile::Missile(double x, double y) : velocity(0, 0) , acceleration(0, constant
     projectile.setFillColor(sf::Color::Magenta);
     projectile.setPosition(x, y);
     Application::getGame().incCounter();
-//    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
 }
 Missile::~Missile()
 {
     Application::getGame().decCounter();
-//    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
 }
 void Missile::setVelocity(double x, double y)
 {

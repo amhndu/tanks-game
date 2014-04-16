@@ -124,7 +124,7 @@ std::unique_ptr<Animation> AnimationCreator::create(AnimationType t,const sf::Ve
     case ArrowDown:
         {
             anim.reset(new Animation(ArrowDownSprite,sf::Vector2i(52,58),position,1/35.0,true));
-            anim->setScale(40/52.0,40/52.0);
+            anim->setScale(30/52.0,30/52.0);
         }
         break;
     }

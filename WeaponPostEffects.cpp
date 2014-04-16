@@ -11,12 +11,10 @@ Explosion::Explosion(AnimationType animType,sf::Vector2f pos,int r) :
     expCircle.setOrigin(r,r);
     expCircle.setPosition(pos);
     Application::getGame().incCounter();
-//    Application::getMsgStream().sendMessage(Message("WeapObjCreated"),"GameState");
 }
 Explosion::~Explosion()
 {
     Application::getGame().decCounter();
-//    Application::getMsgStream().sendMessage(Message("WeapObjDestroyed"),"GameState");
 }
 void Explosion::handleCollision(WorldObject &b)
 {
@@ -29,13 +27,7 @@ void Explosion::handleCollision(WorldObject &b)
         if(tankActed == false && intersects(expCircle,t.getTankRect()))
         {
             sf::Vector2f vec = expCircle.getPosition() - t.getTankRect().getPosition();
-            float blowPower = 50*(1-std::hypot(vec.x,vec.y)/(expCircle.getRadius()+t.getTankRect().getLocalBounds().width/2));
-            if(blowPower < 0)
-            {
-                PRINT_VAR(vec.x)
-                PRINT_VAR(vec.y)
-                PRINT_VAR(std::hypot(vec.x,vec.y))
-            }
+            float blowPower = 100*(1-std::hypot(vec.x,vec.y)/(expCircle.getRadius()+t.getTankRect().getLocalBounds().width/2));
             t.weapAct(blowPower);
             tankActed = true;
         }

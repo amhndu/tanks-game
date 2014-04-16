@@ -24,7 +24,6 @@ Tank::Tank() :
     freefall(true)
 {
     Application::getGame().incCounter();
-//    Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
     setPosition(sf::Vector2f());
     turret.setRotation(-45);
@@ -37,7 +36,6 @@ Tank::~Tank()
 {
     if(freefall)
     Application::getGame().decCounter();
-//        Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
 }
 sf::RectangleShape Tank::getTankRect()
 {
@@ -47,16 +45,16 @@ sf::RectangleShape Tank::getTankRect()
 }
 void Tank::weapAct(float dlife)
 {
-    PRINT_VAR(dlife)
+    int oldlife = myOwner->getLife();
     int newlife = std::max(0.0f,myOwner->getLife()-dlife);
+    assert(newlife<=Player::maxlife);
+    myOwner->setLife(newlife);
     if(newlife == 0)
     {
         selfDestruct = true;
-        Application::getGame().addWorldObj(new Explosion(MissileExplosionB,tank.getPosition(),20));
+        Application::getMsgStream().sendMessage(Message("TankDestroyed"),"GameState");
     }
-    myOwner->setLife(newlife);
     setLifeFill(newlife);
-    Application::getMsgStream().sendMessage(Message("TankDestroyed"),"GameState");
 }
 void Tank::setPlayer(Player *p)
 {
@@ -65,17 +63,10 @@ void Tank::setPlayer(Player *p)
 }
 void Tank::setLifeFill(int l)
 {
-    assert(l<=Player::maxlife);
     lifeFill.setSize(sf::Vector2f(l*lifeBg.getSize().x/100,lifeBg.getSize().y));
 }
 void Tank::receiveMessage(const Message& msg)
-{
-//    if(msg.ID == "LandModified" && freefall == false)
-//    {
-//        freefall = true;
-//        Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
-//    }
-}
+{}
 void Tank::moveTank(double moveAmount) //A very crude algorithm implemented in a cruder way.
 {
     int x0 = tank.getPosition().x;
@@ -126,7 +117,6 @@ void Tank::handleCollision(WorldObject &b)
                 freefall = false;
                 velocity = sf::Vector2f();
                 Application::getGame().decCounter();
-//                Application::getMsgStream().sendMessage(Message("TankOnLand"),"GameState");
                 setPosition(x0,h);
                 break;
             }
@@ -166,7 +156,6 @@ void Tank::step(float dt)
         {
             freefall = true;
             Application::getGame().incCounter();
-//            Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
         }
         if(moving < 0)
             moveTank((moving = 0, lvelocity * dt * -1));
@@ -183,7 +172,6 @@ void Tank::reset()
     {
         freefall = true;
         Application::getGame().incCounter();
-//        Application::getMsgStream().sendMessage(Message("TankFreeFall"),"GameState");
     }
 }
 void Tank::setPosition(const sf::Vector2f& pos)

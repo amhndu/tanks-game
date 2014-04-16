@@ -124,6 +124,7 @@ void CtrlPanel::step(float dt)
 }
 void CtrlPanel::postSettingAngle()
 {
+    _game.decCounter();
     settingAngle = false;
     sf::Mouse::setPosition(mouseOldCoord,Application::getWindow());//set mouse back to position it was before setting angle
     Application::getWindow().setMouseCursorVisible(true);
@@ -131,6 +132,7 @@ void CtrlPanel::postSettingAngle()
 }
 void CtrlPanel::initSettingAngle(Player *pl)
 {
+    _game.incCounter();
     settingAngle = true;
     mouseOldCoord = sf::Mouse::getPosition(Application::getWindow());//save current coords to set it back when setting angle is over
     prevMouseX = mouseOldCoord.x;
@@ -163,6 +165,7 @@ void CtrlPanel::receiveMessage(const Message& msg)
 
             if(settingPower)
             {
+                _game.decCounter();
                 settingPower = false;
                 Application::getWindow().setMouseCursorVisible(true);
                 gaugeBg.setOutlineThickness(1);
@@ -170,6 +173,7 @@ void CtrlPanel::receiveMessage(const Message& msg)
             }
             else if(gaugeBg.getGlobalBounds().contains(mcoord))
             {
+                _game.incCounter();
                 settingPower = true;
                 Application::getWindow().setMouseCursorVisible(false);
                 prevMouseX = mcoord.x;
