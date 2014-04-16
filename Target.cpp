@@ -4,17 +4,17 @@
 Target::Target(Player &pl):
     targetSpr(Application::getTexture(TurretTarget)),
     playr(pl)
-{}
+{
+    targetSpr.setOrigin(-50,0); // padding = 50
+}
 void Target::draw(sf::RenderTarget &target)
 {
     target.draw(targetSpr);
 }
 void Target::step(float dt)
 {
-    int padding = 50;
-    float angle = TO_RAD(playr.getTurretAngle());
-    sf::Vector2f tpos = playr.getTankPos();
-    targetSpr.setPosition(tpos.x+padding*std::cos(angle),tpos.y+padding*std::sin(angle));
+    targetSpr.setPosition(playr.getTankPos());
+    targetSpr.setRotation(playr.getTurretAngle());
 }
 void Target::receiveMessage(const Message& msg)
 {
