@@ -118,7 +118,6 @@ void CtrlPanel::step(float dt)
         {
             sf::Mouse::setPosition(sf::Vector2i(mouse.x,mouse_margin),Application::getWindow());
         }
-        assert(_game.isPlayerTurn());
     }
     rotation.setString("Rotation : " + std::to_string(360-int(pl->getTurretAngle())));
 }
@@ -154,14 +153,14 @@ void CtrlPanel::receiveMessage(const Message& msg)
         auto pl = _game.getCurrPlayer();
         if(pl == nullptr)
             return;
-        if(_game.isPlayerTurn() && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+        if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
             sf::Vector2f mcoord(event.mouseWheel.x,event.mouseButton.y);
-            if( fire.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x,event.mouseButton.y)) )
+            if(_game.isPlayerTurn() && fire.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x,event.mouseButton.y)) )
                 pl->fire();
 
             if(settingAngle)    postSettingAngle();
-            else if(rotation.getGlobalBounds().contains(mcoord)) initSettingAngle(pl);
+            else if(_game.isPlayerTurn() && rotation.getGlobalBounds().contains(mcoord)) initSettingAngle(pl);
 
             if(settingPower)
             {
@@ -171,7 +170,7 @@ void CtrlPanel::receiveMessage(const Message& msg)
                 gaugeBg.setOutlineThickness(1);
                 gaugeBg.setOutlineColor(sf::Color::Black);
             }
-            else if(gaugeBg.getGlobalBounds().contains(mcoord))
+            else if(_game.isPlayerTurn() && gaugeBg.getGlobalBounds().contains(mcoord))
             {
                 _game.incCounter();
                 settingPower = true;
