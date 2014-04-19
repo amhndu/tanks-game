@@ -157,13 +157,15 @@ int Land::getHeight(int x)
 }
 sf::Vector2f Land::getNormal(int x,int y)
 {
-    float avgX = 0;//Calculate the weighted average of the solid pixels to get the normal
+    //Calculate the weighted average of the solid pixels to get the normal
+    float avgX = 0;
     float avgY = 0;
-    for(int w = -3; w <= 3; w++)
+    int sq = 4;//size of the square to calculate the average
+    for(int w = -sq; w <= sq; w++)
     {
-      for(int h = -3; h <= 3; h++)
+      for(int h = -sq; h <= sq; h++)
       {
-        if(isInWindow(x+w,y+h) && LandImg.getPixel(x + w, y + h) != sf::Color::Transparent)
+        if(isPixelSolid(x+w,y+h))
         {
           avgX -= w;
           avgY -= h;
@@ -175,13 +177,14 @@ sf::Vector2f Land::getNormal(int x,int y)
 }
 float Land::getNormAngle(int x,int y)
 {
-    float avgX = 0;
-    float avgY = 0;
-    for(int w = -3; w <= 3; w++)
+    //Calculate the weighted average of the solid pixels to get the normal
+    float avgX = 0,avgY = 0;
+    int sq = 4;//size of the square to calculate the average
+    for(int w = -sq; w <= sq; w++)
     {
-      for(int h = -3; h <= 3; h++)
+      for(int h = -sq; h <= sq; h++)
       {
-        if(LandImg.getPixel(x + w, y + h) != sf::Color::Transparent)
+        if(isPixelSolid(x + w, y + h))
         {
           avgX -= w;
           avgY -= h;
@@ -260,4 +263,10 @@ void Land::receiveMessage(const Message& msg)
         int r = msg.getItem<int>(1);
         destroyCircle(pos.x,pos.y,r);
     }
+}
+bool Land::isPixelSolid(int x,int y)
+{
+    if(isInRange(size_t(x),size_t(0),hmap.size()))
+        return LandImg.getPixel(x,y) != sf::Color::Transparent;
+    return true;//outside the window consider the pixels  to be solid
 }

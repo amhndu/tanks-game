@@ -54,6 +54,7 @@ public:
 private:
     void destroyCircle(int x0,int y0, int radius);
     void destroyColumn(int x,int top,int bottom);
+    bool isPixelSolid(int x,int y);
     std::vector<int> hmap;
     std::map<int,std::list<slManifest>> slColumns;
     sf::Sprite LandSpr;

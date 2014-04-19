@@ -27,12 +27,10 @@ public:
     sf::RectangleShape getTankRect();
 
 private:
-    void moveTank(double moveDelta);
     void setLifeFill(int l);
 
     Player *myOwner;
     int moving;//on land
-    double moveRem;
     sf::Sprite tank;
     sf::Sprite turret;
     sf::RectangleShape lifeBg;

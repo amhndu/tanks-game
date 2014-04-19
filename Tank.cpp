@@ -10,13 +10,12 @@
 #define TANK_WIDTH     tank.getLocalBounds().width
 #define TANK_HEIGHT    tank.getLocalBounds().height
 
-const double lvelocity = 150;
+const float lvelocity = 150;
 
 Tank::Tank() :
     WorldObject(TankType) ,
     myOwner(nullptr) ,
     moving() ,
-    moveRem() ,
     tank(Application::getTexture(TankTexture)) ,
     turret(Application::getTexture(TurretTexture)),
     lifeBg(sf::Vector2f(TANK_WIDTH,5)),
@@ -45,7 +44,6 @@ sf::RectangleShape Tank::getTankRect()
 }
 void Tank::weapAct(float dlife)
 {
-    int oldlife = myOwner->getLife();
     int newlife = std::max(0.0f,myOwner->getLife()-dlife);
     assert(newlife<=Player::maxlife);
     myOwner->setLife(newlife);
@@ -67,40 +65,6 @@ void Tank::setLifeFill(int l)
 }
 void Tank::receiveMessage(const Message& msg)
 {}
-void Tank::moveTank(double moveAmount) //A very crude algorithm implemented in a cruder way.
-{
-    int x0 = tank.getPosition().x;
-    if((moveAmount+moveRem)*moveRem > 0) // when both have the same direction.
-        moveAmount += moveRem;
-    moveRem = 0;
-    if((moveAmount < 0 && moveAmount > L_POINTDIST(x0)/2) ||
-            (moveAmount > 0 && moveAmount < R_POINTDIST(x0)/2))
-    {
-        moveRem = moveAmount;
-        return;
-    }
-    else { moveRem = 0; }
-    if((x0 + TANK_WIDTH / 2 < constants::windowWidth || moveAmount < 0)
-       && (x0 - TANK_WIDTH / 2 >= 0 || moveAmount > 0))
-    {
-        int xpos = x0;
-        for(float sum = 0;;)
-        {
-            if(fabs(moveAmount) > fabs(sum) && xpos < constants::windowWidth && xpos >= 0)
-            {
-                sum += (moveAmount > 0) ? (xpos++, R_POINTDIST(xpos - 1)) : (xpos--, L_POINTDIST(xpos + 1));
-            }
-            else
-            {
-                moveRem = moveAmount - sum;
-                break;
-            }
-        }
-        setPosition(xpos,constants::windowHeight-HMAP(xpos));
-        float ang = Application::getGame().getLandNormAng(xpos,constants::windowHeight-HMAP(xpos));
-        tank.setRotation(std::fmod(90 - TO_DEG(ang),360) );
-    }
-}
 void Tank::handleCollision(WorldObject &b)
 {
     switch(b.type)
@@ -152,21 +116,33 @@ void Tank::step(float dt)
     }
     else
     {
-        if(tank.getPosition().y<constants::windowHeight-Application::getGame().getLandHeight(tank.getPosition().x))
+        if(tank.getPosition().y<constants::windowHeight-HMAP(tank.getPosition().x))
         {
             freefall = true;
             Application::getGame().incCounter();
         }
-        if(moving < 0)
-            moveTank((moving = 0, lvelocity * dt * -1));
-        else if(moving > 0)
-            moveTank((moving = 0, lvelocity * dt));
+        if(moving)
+        {
+            float phi = TO_RAD(tank.getRotation());
+            float xvel = lvelocity*std::cos(phi);
+            xvel = std::max(5.0f,xvel)*((moving<0)?-1:1);
+            sf::Vector2f ds(xvel*dt,0);
+            ds.y = constants::windowHeight-HMAP(tank.getPosition().x+ds.x)-tank.getPosition().y;
+            moving = 0;
+            if(ds.y < 0 && std::abs(ds.y/ds.x) > std::tan(TO_RAD(70))) //if ascend (going up) is too steep
+                return;
+            tank.move(ds);
+            turret.move(ds);
+            lifeBg.move(ds);
+            lifeFill.move(ds);
+            float ang = Application::getGame().getLandNormAng(tank.getPosition().x,tank.getPosition().y);
+            tank.setRotation(std::fmod(90 - TO_DEG(ang),360) );
+        }
     }
 }
 void Tank::reset()
 {
     moving = 0;
-    moveRem = 0;
     turret.setRotation(-45);
     if(!freefall)
     {

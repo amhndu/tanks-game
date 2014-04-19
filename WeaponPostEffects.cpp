@@ -27,7 +27,7 @@ void Explosion::handleCollision(WorldObject &b)
         if(tankActed == false && intersects(expCircle,t.getTankRect()))
         {
             sf::Vector2f vec = expCircle.getPosition() - t.getTankRect().getPosition();
-            float blowPower = 100*(1-std::hypot(vec.x,vec.y)/(expCircle.getRadius()+t.getTankRect().getLocalBounds().width/2));
+            float blowPower = 50*(1-std::hypot(vec.x,vec.y)/(expCircle.getRadius()+t.getTankRect().getLocalBounds().width/2));
             t.weapAct(blowPower);
             tankActed = true;
         }
