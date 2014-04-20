@@ -7,6 +7,7 @@
 #include "MessageStream.h"
 #include "Game.h"
 #include "GameOverScreen.h"
+#include "TitleScreen.h"
 
 class Application
 {
@@ -31,6 +32,7 @@ private:
     static sf::RenderWindow mainWindow;
     static Game mGame;
     static GameOverScreen mGameOver;
+    static TitleScreen titleState;
     static AppState* currentState;
 };
 

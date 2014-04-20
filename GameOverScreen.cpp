@@ -43,6 +43,6 @@ void GameOverScreen::receiveMessage(const Message& msg)
     {
         const std::string &gcase = msg.getItem<std::string>(0);
         message.setString(gcase);
-        reset();
+//        reset();
     }
 }

@@ -179,7 +179,7 @@ float Land::getNormAngle(int x,int y)
 {
     //Calculate the weighted average of the solid pixels to get the normal
     float avgX = 0,avgY = 0;
-    int sq = 4;//size of the square to calculate the average
+    int sq = 3;//size of the square to calculate the average
     for(int w = -sq; w <= sq; w++)
     {
       for(int h = -sq; h <= sq; h++)
@@ -191,6 +191,11 @@ float Land::getNormAngle(int x,int y)
         }
       }
     }
+    float slope = (-hmap[x-sq]+hmap[x+sq])/-float(sq);
+    float slope2 =(-hmap[x-sq]+hmap[x+sq])/-float(sq+1);
+    std::cout << "Angles :\n\t" << TO_DEG(arctan(1.f,slope)) << "\n\t" << TO_DEG(arctan(1.f,slope2)) << "\n\t" << TO_DEG(arctan(slope,1.f)) << "\n\t";
+    std::cout << "Correct : " << TO_DEG(arctan(-avgY,avgX)) << std::endl;
+//    return arctan(1.f,slope2);
     return arctan(-avgY,avgX);
 }
 void Land::genHeightMap(Landtype Land_t)

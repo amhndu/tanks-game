@@ -156,13 +156,9 @@ void CtrlPanel::receiveMessage(const Message& msg)
         if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
             sf::Vector2f mcoord(event.mouseWheel.x,event.mouseButton.y);
-            if(_game.isPlayerTurn() && fire.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x,event.mouseButton.y)) )
-                pl->fire();
 
             if(settingAngle)    postSettingAngle();
-            else if(_game.isPlayerTurn() && rotation.getGlobalBounds().contains(mcoord)) initSettingAngle(pl);
-
-            if(settingPower)
+            else if(settingPower)
             {
                 _game.decCounter();
                 settingPower = false;
@@ -170,6 +166,7 @@ void CtrlPanel::receiveMessage(const Message& msg)
                 gaugeBg.setOutlineThickness(1);
                 gaugeBg.setOutlineColor(sf::Color::Black);
             }
+            else if(_game.isPlayerTurn() && rotation.getGlobalBounds().contains(mcoord)) initSettingAngle(pl);
             else if(_game.isPlayerTurn() && gaugeBg.getGlobalBounds().contains(mcoord))
             {
                 _game.incCounter();
@@ -179,11 +176,13 @@ void CtrlPanel::receiveMessage(const Message& msg)
                 gaugeBg.setOutlineThickness(2);
                 gaugeBg.setOutlineColor(sf::Color(200,150,150,200));
             }
+            else if(_game.isPlayerTurn() && fire.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x,event.mouseButton.y)) )
+                pl->fire();
         }
-        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R && _game.isPlayerTurn())
+        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
         {
             if(settingAngle)    postSettingAngle();
-            else                initSettingAngle(pl);
+            else if(_game.isPlayerTurn())                initSettingAngle(pl);
         }
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && _game.isPlayerTurn())
             pl->fire();

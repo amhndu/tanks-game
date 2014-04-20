@@ -53,7 +53,7 @@ void World::crudeStepAll(float dt)
         {
             for(auto j = std::next(objit) ; j != objects.end() ; ++j)
                 (*objit)->handleCollision(*(*j).get());
-            /*                         ^
+            /*                             ^
             dereference the iterator , get the raw pointer and dereference it*/
             (*objit)->step(dt);
             ++objit;
@@ -64,13 +64,13 @@ void World::crudeStepAll(float dt)
 }
 void World::stepAll(float dt)
 {
-    crudeStepAll(dt);
-//    timer += dt;
-//    while(timer > updateRate)
-//    {
-//        timer -= updateRate;
-//        crudeStepAll(updateRate);
-//    }
+//    crudeStepAll(dt);
+    timer += dt;
+    while(timer > updateRate)
+    {
+        timer -= updateRate;
+        crudeStepAll(updateRate);
+    }
 }
 void World::play()
 {

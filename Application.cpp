@@ -5,7 +5,7 @@ void Application::run()
     mainWindow.create(sf::VideoMode(constants::windowWidth,constants::windowHeight),"A Game feat. Tanks");
     mainWindow.setFramerateLimit(120);
     sf::Clock frameTimer;
-    changeState(GameState);
+    changeState(TitleScreenState);
     msgStream.getGroup("AllAppStates").subscribe(&mGame);
     msgStream.getGroup("AllAppStates").subscribe(&mGameOver);
     msgStream.getGroup("GameState").subscribe(&mGame);
@@ -55,22 +55,25 @@ void Application::loadResources()
     textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
     textureMgr.load(ArrowDownSprite,"data/arrowdown.png") &&
     fontMgr.load(Sensation,"data/sansation.ttf") ) )
-        std::terminate();
+        throw std::runtime_error("failed to load resources");
     else
         ResourcesLoaded = true;
 }
 void Application::changeState(AppStateType as)
 {
+    PRINT_VAR(as)
     statesStack.push_back(as);
-//    currentState->stateChanged();
     msgStream.getGroup("EventListeners").unsubscribe(currentState);
     currentState = getState(as);
+    currentState->reset();
     msgStream.getGroup("EventListeners").subscribe(currentState);
 }
 AppState* Application::getState(AppStateType as)
 {
     switch(as)
     {
+    case TitleScreenState:
+        return &titleState;
     case GameState:
         return &mGame;
     case GameOverState:
@@ -87,6 +90,7 @@ std::deque<AppStateType> Application::statesStack;
 sf::RenderWindow Application::mainWindow;
 Game Application::mGame;
 GameOverScreen Application::mGameOver;
+TitleScreen Application::titleState;
 AppState* Application::currentState;
 int main()
 {

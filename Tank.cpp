@@ -124,12 +124,14 @@ void Tank::step(float dt)
         if(moving)
         {
             float phi = TO_RAD(tank.getRotation());
-            float xvel = lvelocity*std::cos(phi);
-            xvel = std::max(5.0f,xvel)*((moving<0)?-1:1);
+            //xvel is the horizontal component of the velocity with the angle phi.
+            //we set the minimum velocity to 2 pixels/second
+            //(moving<0)?-1:1 multiplies xvel by -1 if moving in the left direction
+            float xvel = std::max(2.0f,lvelocity*std::cos(phi))*((moving<0)?-1:1);
             sf::Vector2f ds(xvel*dt,0);
             ds.y = constants::windowHeight-HMAP(tank.getPosition().x+ds.x)-tank.getPosition().y;
             moving = 0;
-            if(ds.y < 0 && std::abs(ds.y/ds.x) > std::tan(TO_RAD(70))) //if ascend (going up) is too steep
+            if(ds.y < 0 && std::abs(ds.y/ds.x) > std::tan(TO_RAD(80))) //if ascend (going up) is too steep
                 return;
             tank.move(ds);
             turret.move(ds);
