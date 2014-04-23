@@ -13,7 +13,8 @@ enum TextureIdentifier
 };
 enum FontIdentifier
 {
-    Sensation
+    Sensation,
+    UbuntuCondensed
 };
 
 template <typename Resource, typename Identifier>

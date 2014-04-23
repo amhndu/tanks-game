@@ -55,7 +55,8 @@ void Application::loadResources()
 //    textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
     textureMgr.load(ArrowDownSpriteSheet,"data/arrowdown.png") &&
     textureMgr.load(TitleBg,"data/title.png") &&
-    fontMgr.load(Sensation,"data/sansation.ttf") ) )
+    fontMgr.load(Sensation,"data/sansation.ttf") &&
+    fontMgr.load(UbuntuCondensed,"data/Ubuntu-C.ttf")) )
         throw std::runtime_error("failed to load resources");
     else
         ResourcesLoaded = true;
