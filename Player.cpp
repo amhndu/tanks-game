@@ -4,7 +4,11 @@
 #include "utilities.h"
 #include "WorldText.h"
 
-Player::Player(Tank *val) : myTank(val) , life(maxlife) , power(0.4) , settingRot(false)
+Player::Player(Tank *val,const std::string& name) :
+    myTank(val),
+    playerName(name),
+    life(maxlife),
+    power(0.4)
 {}
 void Player::fire()
 {

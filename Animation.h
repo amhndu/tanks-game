@@ -16,6 +16,8 @@ class Animation : public WorldObject
         inline void setScale(double x,double y) { frameSpr.setScale(x,y); }
         inline sf::Vector2f getPosition() { return frameSpr.getPosition(); }
         inline void setPosition(const sf::Vector2f& pos) { frameSpr.setPosition(pos); }
+        inline void setRotation(float angle){ frameSpr.setRotation(angle); }
+        inline float getRotation(){ return frameSpr.getRotation(); }
         void setFrameSize(const sf::Vector2i& size);
         void setFrameSize(int x,int y);
         inline const sf::Vector2i& getFrameSize() { return frameSize;}
@@ -42,7 +44,6 @@ class Animation : public WorldObject
 enum AnimationType
 {
     MissileExplosionA,
-    MissileExplosionB,
     ArrowDown
 };
 

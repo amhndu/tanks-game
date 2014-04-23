@@ -37,6 +37,10 @@ private:
     sf::RectangleShape lifeFill;
     bool freefall;
     sf::Vector2f velocity;
+    sf::Text Name;
+
+    bool fadingLife;
+    float fadingTimer;//fading starts after this runs out
 };
 
 #endif // Tank_H

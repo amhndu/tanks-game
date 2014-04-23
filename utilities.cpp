@@ -2,11 +2,6 @@
 #include "Game.h"
 #include <unordered_map>
 
-template<class T>
-T sq(T a)
-{
-    return a * a;
-}
 sf::Vector2f RotatePoint(sf::Vector2f Point, sf::Vector2f Origin, double phi)
 {
     double c = std::cos(phi) ,s = std::sin(phi);

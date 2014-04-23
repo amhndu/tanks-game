@@ -20,7 +20,11 @@ Tank::Tank() :
     turret(Application::getTexture(TurretTexture)),
     lifeBg(sf::Vector2f(TANK_WIDTH,5)),
     lifeFill(sf::Vector2f()),
-    freefall(true)
+    freefall(true),
+    velocity(),
+    Name(),
+    fadingLife(true),
+    fadingTimer()
 {
     Application::getGame().incCounter();
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
@@ -30,11 +34,14 @@ Tank::Tank() :
     lifeBg.setOutlineThickness(1);
     lifeBg.setFillColor(sf::Color::Yellow);
     lifeFill.setFillColor(sf::Color::Red);
+    Name.setColor(sf::Color::Black);
+    Name.setCharacterSize(15);
+    Name.setFont(Application::getFont(Sensation));
 }
 Tank::~Tank()
 {
     if(freefall)
-    Application::getGame().decCounter();
+        Application::getGame().decCounter();
 }
 sf::RectangleShape Tank::getTankRect()
 {
@@ -53,10 +60,17 @@ void Tank::weapAct(float dlife)
         Application::getMsgStream().sendMessage(Message("TankDestroyed"),"GameState");
     }
     setLifeFill(newlife);
+    fadingLife = true;
+    fadingTimer = 1;
+    lifeBg.setFillColor(lifeBg.getFillColor()+sf::Color(0,0,0,255));
+    lifeBg.setOutlineColor(lifeBg.getOutlineColor()+sf::Color(0,0,0,255));
+    lifeFill.setFillColor(lifeFill.getFillColor()+sf::Color(0,0,0,255));
+    Name.setColor(Name.getColor()+sf::Color(0,0,0,255));
 }
 void Tank::setPlayer(Player *p)
 {
     myOwner = p;
+    Name.setString(p->getName());
     setLifeFill(p->getLife());
 }
 void Tank::setLifeFill(int l)
@@ -99,8 +113,12 @@ void Tank::draw(sf::RenderTarget &target)
 {
     target.draw(turret);
     target.draw(tank);
-    target.draw(lifeBg);
-    target.draw(lifeFill);
+    if(lifeFill.getFillColor().a != 0)
+    {
+        target.draw(lifeBg);
+        target.draw(lifeFill);
+        target.draw(Name);
+    }
 }
 void Tank::setMovement(int val) {   moving = val;   }
 void Tank::step(float dt)
@@ -113,6 +131,7 @@ void Tank::step(float dt)
         turret.move(ds);
         lifeBg.move(ds);
         lifeFill.move(ds);
+        Name.move(ds);
     }
     else
     {
@@ -137,9 +156,34 @@ void Tank::step(float dt)
             turret.move(ds);
             lifeBg.move(ds);
             lifeFill.move(ds);
+            Name.move(ds);
             float ang = Application::getGame().getLandNormAng(tank.getPosition().x,tank.getPosition().y);
             tank.setRotation(std::fmod(90 - TO_DEG(ang),360) );
         }
+    }
+    sf::Vector2f dist = sf::Vector2f(sf::Mouse::getPosition(Application::getWindow())) - tank.getPosition();
+    if(sq(dist.x)+sq(dist.y) <= sq(50))
+    {
+        fadingLife = true;
+        fadingTimer = 1;
+        lifeBg.setFillColor(lifeBg.getFillColor()+sf::Color(0,0,0,255));
+        lifeBg.setOutlineColor(lifeBg.getOutlineColor()+sf::Color(0,0,0,255));
+        lifeFill.setFillColor(lifeFill.getFillColor()+sf::Color(0,0,0,255));
+        Name.setColor(Name.getColor()+sf::Color(0,0,0,255));
+    }
+    else if(fadingLife && (fadingTimer-=dt) < 0)
+    {
+        if(lifeBg.getFillColor().a != 0)
+        {
+            const float rate = 255.0/1;//fade out in 1 second
+            int dAlpha = rate*dt;
+            lifeFill.setFillColor(lifeFill.getFillColor()-sf::Color(0,0,0,dAlpha));
+            lifeBg.setFillColor(lifeBg.getFillColor()-sf::Color(0,0,0,dAlpha));
+            lifeBg.setOutlineColor(lifeBg.getOutlineColor()-sf::Color(0,0,0,dAlpha));
+            Name.setColor(Name.getColor()-sf::Color(0,0,0,dAlpha));
+        }
+        else
+            fadingLife = false;
     }
 }
 void Tank::reset()
@@ -156,6 +200,7 @@ void Tank::setPosition(const sf::Vector2f& pos)
 {
     tank.setPosition(pos);
     turret.setPosition(pos-sf::Vector2f(0,TANK_HEIGHT/2));
-    lifeBg.setPosition(pos.x-lifeBg.getGlobalBounds().width/2,pos.y+TANK_HEIGHT+5);
+    lifeBg.setPosition(pos.x-lifeBg.getGlobalBounds().width/2,pos.y-std::max(TANK_HEIGHT,TANK_WIDTH)-turret.getLocalBounds().width);
     lifeFill.setPosition(lifeBg.getPosition());
+    Name.setPosition(pos.x-Name.getLocalBounds().width/2,lifeBg.getPosition().y-lifeBg.getLocalBounds().height-Name.getLocalBounds().height);
 }

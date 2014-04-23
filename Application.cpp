@@ -52,8 +52,9 @@ void Application::loadResources()
     textureMgr.load(TurretTexture,"data/turret.png") &&
     textureMgr.load(ExplosionA,"data/ExplosionAsmall.png") &&
     textureMgr.load(TurretTarget,"data/target.png") &&
-    textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
-    textureMgr.load(ArrowDownSprite,"data/arrowdown.png") &&
+//    textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
+    textureMgr.load(ArrowDownSpriteSheet,"data/arrowdown.png") &&
+    textureMgr.load(TitleBg,"data/title.png") &&
     fontMgr.load(Sensation,"data/sansation.ttf") ) )
         throw std::runtime_error("failed to load resources");
     else
@@ -61,7 +62,6 @@ void Application::loadResources()
 }
 void Application::changeState(AppStateType as)
 {
-    PRINT_VAR(as)
     statesStack.push_back(as);
     msgStream.getGroup("EventListeners").unsubscribe(currentState);
     currentState = getState(as);

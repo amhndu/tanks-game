@@ -70,7 +70,7 @@ void CtrlPanel::draw(sf::RenderTarget &target)
     if(_game.isPlayerTurn())
     {
         if(pl)
-            currPlayerMarker->setPosition(pl->getTankPos()-sf::Vector2f(0,80));
+            currPlayerMarker->setPosition(pl->getTankPos()-sf::Vector2f(0,100));
         currPlayerMarker->draw(target);
     }
 }

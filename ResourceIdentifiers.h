@@ -5,10 +5,11 @@ enum TextureIdentifier
 {
     TankTexture,
     ExplosionA,
-    ExplosionB,
+//    ExplosionB,
     TurretTexture,
     TurretTarget,
-    ArrowDownSprite
+    ArrowDownSpriteSheet,
+    TitleBg
 };
 enum FontIdentifier
 {

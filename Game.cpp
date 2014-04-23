@@ -15,6 +15,7 @@ void Game::reset()
 {
     world.clear();
     players.clear();
+    playerActive = 0;
     counter = 0;
 
     land = static_cast<Land*>(world.addObj(WorldObject::LandType));
@@ -22,7 +23,6 @@ void Game::reset()
     gland.clear();
     gland.subscribe(land);
     land->genHeightMap(Land::Random);
-    playerActive = 0;
 
     auto &gCtrlPanel = Application::getMsgStream().getGroup("CtrlPanel");
     gCtrlPanel.clear();
@@ -37,7 +37,7 @@ void Game::reset()
     {
         Tank* pTank = static_cast<Tank*>(world.addObj(WorldObject::TankType));
         gtanks.subscribe(pTank);
-        Playerptr pl(new Player(pTank));
+        Playerptr pl(new Player(pTank,"Player "+ std::to_string(i+1) ));
         int x = rand()%(pw-50) + pw*i + 25; //place tank within the ith part within a padding of 25pixels on both sides
         pTank->setPosition(sf::Vector2f(x,constants::windowHeight-getLandHeight(x)-10));
         pTank->setPlayer(pl.get());
@@ -108,8 +108,6 @@ void Game::passEvent(sf::Event Event)
             break;
         }
     }
-//    if( isPlayerTurn() && players[playerActive] != nullptr)
-//        players[playerActive]->handleInput(Event);
     Application::getMsgStream().sendMessage(Message("WindowEvent",Event),"CtrlPanel");
 }
 void Game::receiveMessage(const Message& msg)

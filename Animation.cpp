@@ -113,17 +113,13 @@ std::unique_ptr<Animation> AnimationCreator::create(AnimationType t,const sf::Ve
     case MissileExplosionA:
         {
             anim.reset(new Animation(ExplosionA,sf::Vector2i(128,128),position,1/25.0));
+            anim->setRotation(rand()%360);
             anim->setScale(94.0/128.0,94.0/128.0);// scale = new_size / initial_size
-        }
-        break;
-    case MissileExplosionB:
-        {
-            anim.reset(new Animation(ExplosionB,sf::Vector2i(64,64),position,1/10.0));
         }
         break;
     case ArrowDown:
         {
-            anim.reset(new Animation(ArrowDownSprite,sf::Vector2i(52,58),position,1/35.0,true));
+            anim.reset(new Animation(ArrowDownSpriteSheet,sf::Vector2i(52,58),position,1/35.0,true));
             anim->setScale(30/52.0,30/52.0);
         }
         break;

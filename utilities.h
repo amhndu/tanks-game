@@ -16,11 +16,13 @@ bool inline isInWindow(int x, int y)
     return (x >= 0 && x < constants::windowWidth && y >= 0 && y < constants::windowHeight);
 }
 template<class IntType>
+
 bool inline isInRange(IntType t,IntType a,IntType b) //is t under the range [a,b] inclusive
 {
     //a must be greater than b , we don't check for
     return (t >= a && t <= b);
 }
+
 sf::Color inline grad(double t , sf::Color a, sf::Color b)
 {
     sf::Color res;
@@ -30,14 +32,35 @@ sf::Color inline grad(double t , sf::Color a, sf::Color b)
     res.a = LERP(t, a.a, b.a);
     return res;
 }
+
 template<class T>
 T inline arctan(T y,T x)
 {
     return x?std::atan2(y,x):M_PI_2;
 }
-sf::Vector2f RotatePoint(sf::Vector2f Point, sf::Vector2f Origin, double phi);
+
 template<class T>
-T sq(T a);
+T inline sq(T a)
+{
+    return a*a;
+}
+
+inline float round(float number,float divisor)
+{
+    return divisor*static_cast<long long>(number/divisor+0.5);
+}
+inline double round(double number,double divisor)
+{
+    return divisor*static_cast<long long>(number/divisor+0.5);
+}
+
+template <typename T> //width and height must be +ve
+inline bool contains(T rectX,T rectY,T width,T height,T x, T y)
+{
+    return (x >= rectX) && (x < rectX+width) && (y >= rectY) && (y < rectY+height);
+}
+
+sf::Vector2f RotatePoint(sf::Vector2f Point, sf::Vector2f Origin, double phi);
 bool intersects(sf::CircleShape circle, sf::RectangleShape rect);
 double cachedSqrt(int num);
 
