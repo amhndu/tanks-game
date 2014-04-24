@@ -1,15 +1,19 @@
 #ifndef MENU_H
 #define MENU_H
 #include <SFML/Graphics.hpp>
+#include <list>
+#include <memory>
+
+typedef std::unique_ptr<sf::Text> sfTextPtr;
 
 class Menu
 {
 public:
-    Menu(const sf::Font &f,int charSize = 20,int linePad = 4,int scrollBarWidth = 6);
+    Menu(const sf::Font &f,int charSize = 20,int linePad = -1,int scrollBarWidth = 6);
     ~Menu() = default;
     void draw(sf::RenderTarget &target);
     template<typename... Tail>
-    void add(const std::string& str,Tail... T)
+    inline void add(const std::string& str,Tail... T)
     {
         add(str);
         add(T...);
@@ -24,17 +28,32 @@ public:
     //height is rounded to a nearby multiple of (linePadding+characterSize), and the extra menu items are scrollable
     void create(float width = 0,float height = 0);
     void passEvent(const sf::Event& event);
-    int getCharacterSize(){ return characterSize; }
-    int getLinePadding(){ return linePadding; }
-    void setCharacterSize(int size){ characterSize=size;}
-    void setLinePadding(int pad){ linePadding=pad;}
-    void setPosition(float x,float y)
+    //clicked < 0 means not clicked yet, after querying it is set to -1
+    inline int querySelecion()
+    {
+        int temp = clicked;
+        clicked=-1;
+        return temp;
+    }
+    inline int getCharacterSize(){ return characterSize; }
+    inline int getLinePadding(){ return linePadding; }
+    inline void setCharacterSize(int size){ characterSize=size;}
+    inline void setLinePadding(int pad){ linePadding=pad;}
+    inline void setPosition(float x,float y)
     {
         scrollBar.move(-spr.getPosition());
         spr.setPosition(x,y);
         scrollBar.move(spr.getPosition());
     }
-    sf::Vector2f getPosition(){ return spr.getPosition();}
+    inline void setSelectionBgColor(const sf::Color& theColor){ selectionBg.setFillColor(theColor); }
+    inline const sf::Color& getSelectionBgColor(){ return selectionBg.getFillColor(); }
+    inline void setScrollBarColor(const sf::Color& theColor){ scrollBar.setFillColor(theColor); }
+    inline const sf::Color& getScrollBarColor(){ return scrollBar.getFillColor(); }
+    inline sf::Vector2f getPosition(){ return spr.getPosition();}
+    inline int getLineSpacing(){ return linePadding+characterSize; }
+    inline void setActive(bool val){ active = val; }
+    inline bool getActive(){ return active; }
+    inline const sf::Vector2f& getSize(){ return view.getSize(); }
 private:
     void updateTexture(int deltaScroll = 0);
     sf::RenderTexture rndrTxtre;
@@ -43,13 +62,16 @@ private:
     sf::RectangleShape scrollBar;
     sf::View view;
     const sf::Font &font;
-    std::list<std::unique_ptr<sf::Text>> menuList;
+    std::list<sfTextPtr> menuList;
+    bool active;
     int characterSize;
     int linePadding;
     int marker;
     int itemsVisible; //in the view
     int scrolled;//no of items above not visible
     bool scroll;
+    int clicked;//on item
+    float clickTimer;
 };
 
 #endif // MENU_H

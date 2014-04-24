@@ -10,16 +10,23 @@ Menu::Menu(const sf::Font& f,int charSize,int linePad,int scrollBarWidth) :
     view(),
     font(f),
     menuList(),
+    active(true),
     characterSize(charSize),
     linePadding(linePad),
     marker(0),
     itemsVisible(0),
     scrolled(0),
-    scroll(false)
+    scroll(false),
+    clicked(-1),
+    clickTimer(0)
 {
     selectionBg.setFillColor(sf::Color(210,210,210));
     scrollBar.setFillColor(sf::Color(100,100,100));
     scrollBar.setSize(sf::Vector2f(scrollBarWidth,0));
+    if(linePad == -1)//at least i don't use negative line paddings , so this ok for me,
+    {
+        linePadding = font.getLineSpacing(characterSize)-characterSize;
+    }
 }
 void Menu::draw(sf::RenderTarget &target)
 {
@@ -29,7 +36,7 @@ void Menu::draw(sf::RenderTarget &target)
 }
 void Menu::add(const std::string& item,sf::Color textColor)
 {
-    std::unique_ptr<sf::Text> newText(new sf::Text(item,font,characterSize));
+    sfTextPtr newText(new sf::Text(item,font,characterSize));
     newText->setColor(textColor);
     newText->setPosition(0,menuList.size()*(linePadding+characterSize));
     menuList.push_back(std::move(newText));
@@ -42,26 +49,23 @@ void Menu::create(float width,float height)
         height = round(height,linePadding+characterSize);
 
     itemsVisible = height/(linePadding+characterSize);
-
     //max width of the sf::Texts of the menu items
     float maxwidth = (**std::max_element(menuList.begin(),menuList.end(),
                             [](sfTextPtr& a,sfTextPtr &b){ return a->getLocalBounds().width<b->getLocalBounds().width;})).getLocalBounds().width;
-    if(itemsVisible != menuList.size())
+    if(itemsVisible < menuList.size())
     {
         scroll = true;
-        maxwidth += scrollBar.getSize().x;
     }
     if(width == 0)  width = maxwidth;
     else
         width = std::max(width,maxwidth);
     rndrTxtre.create(width,height);
     view = rndrTxtre.getDefaultView();
-    view.setSize(width,height);
     selectionBg.setSize(sf::Vector2f(width,linePadding+characterSize));
     if(scroll)
     {
         scrollBar.setSize(sf::Vector2f( scrollBar.getSize().x,std::max(5.0f,height/(menuList.size()+1-itemsVisible))));
-        scrollBar.setPosition(width,0);
+        scrollBar.setPosition(spr.getPosition().x+width,spr.getPosition().y+0);
     }
 
     rndrTxtre.clear(sf::Color::Transparent);
@@ -75,21 +79,40 @@ void Menu::create(float width,float height)
 }
 void Menu::step(float dt)
 {
-   int deltaScroll = 0;
-   sf::Vector2f mouse = sf::Vector2f(sf::Mouse::getPosition(Application::getWindow()));
-   if(scroll && contains(scrollBar.getPosition().x,spr.getPosition().y,scrollBar.getSize().x,view.getSize().y,mouse.x,mouse.y))
+    if(!active) return;
+    int deltaScroll = 0;
+    bool update = false;
+
+    clickTimer -= dt; //count down timer
+
+    sf::Vector2f mouse = sf::Vector2f(sf::Mouse::getPosition(Application::getWindow()));
+    sf::Vector2f relMouse = mouse - spr.getPosition();
+    sf::Vector2f mouseInView = rndrTxtre.mapPixelToCoords(static_cast<sf::Vector2i>(relMouse));
+    if(scroll && sf::Mouse::isButtonPressed(sf::Mouse::Left) && contains(scrollBar.getPosition().x,spr.getPosition().y,scrollBar.getSize().x,view.getSize().y,mouse.x,mouse.y))
     {
-        float relMouseY = mouse.y - spr.getPosition().y;
-        int new_scrolled = (menuList.size()-itemsVisible+1)*relMouseY/(view.getSize().y);
+        int new_scrolled = (menuList.size()-itemsVisible+1)*relMouse.y/(view.getSize().y);
         if(new_scrolled != scrolled)
         {
-            update = true;
             deltaScroll = new_scrolled-scrolled;
+            update = true;
         }
     }
+    else if(clickTimer <= 0 && spr.getGlobalBounds().contains(mouse))
+    {
+        clickTimer = 0.05;
+        if(mouseInView.y/(linePadding+characterSize) != marker/* && mouseInView.y/(linePadding+characterSize)-scrolled <= itemsVisible*/)
+        {
+            marker = mouseInView.y/(linePadding+characterSize);
+            update = true;
+        }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            clicked = marker;
+    }
+    if(update)  updateTexture(deltaScroll);
 }
 void Menu::passEvent(const sf::Event &event)
 {
+    if(!active) return;
     bool update = false;
     int deltaScroll = 0;
     if(event.type == sf::Event::KeyPressed)
@@ -117,24 +140,10 @@ void Menu::passEvent(const sf::Event &event)
                 update = true;
                 break;
             case sf::Keyboard::Return:
-                selected = true;
+                clicked = marker;
                 break;
             default:
                 break;
-        }
-    }
-    else if(event.type == sf::Event::MouseMoved)
-    {
-        sf::Vector2f mouse(event.mouseMove.x,event.mouseMove.y);
-        if(spr.getGlobalBounds().contains(mouse))
-        {
-            mouse -= spr.getPosition();
-            mouse = rndrTxtre.mapPixelToCoords(static_cast<sf::Vector2i>(mouse));
-            if(mouse.y/(linePadding+characterSize) != marker && mouse.y/(linePadding+characterSize)-scrolled <= itemsVisible)
-            {
-                marker = mouse.y/(linePadding+characterSize);
-                update = true;
-            }
         }
     }
     else if(event.type == sf::Event::MouseWheelMoved)
@@ -154,20 +163,6 @@ void Menu::passEvent(const sf::Event &event)
             }
         }
     }
-    else if(event.type == sf::Event::MouseButtonPressed)
-    {
-        sf::Vector2f mouse(event.mouseButton.x,event.mouseButton.y);
-        if(spr.getGlobalBounds().contains(mouse))
-        {
-            sf::Vector2f mouse2 = mouse - spr.getPosition();
-            mouse2 = rndrTxtre.mapPixelToCoords(static_cast<sf::Vector2i>(mouse2));
-            if(mouse2.y/(linePadding+characterSize) != marker && mouse2.y/(linePadding+characterSize)-scrolled <= itemsVisible)
-            {
-                marker = mouse2.y/(linePadding+characterSize);
-                update = true;
-            }
-        }
-    }
 
     if(update)  updateTexture(deltaScroll);
 }
@@ -181,7 +176,7 @@ void Menu::updateTexture(int deltaScroll)
         view.move(0,deltaScroll*(linePadding+characterSize));
     }
     rndrTxtre.setView(view);
-    rndrTxtre.clear(sf::Color::White);
+    rndrTxtre.clear(sf::Color::Transparent);
     rndrTxtre.draw(selectionBg);
     for(const auto &a : menuList)
     {

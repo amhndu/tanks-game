@@ -13,6 +13,10 @@
 Game::Game() : AppState(GameState),counter(0) {}
 void Game::reset()
 {
+    newGame();
+}
+void Game::newGame(int n_players,Land::Landtype land_t)
+{
     world.clear();
     players.clear();
     playerActive = 0;
@@ -22,7 +26,7 @@ void Game::reset()
     auto &gland = Application::getMsgStream().getGroup("Land");
     gland.clear();
     gland.subscribe(land);
-    land->genHeightMap(Land::Random);
+    land->genHeightMap(land_t);
 
     auto &gCtrlPanel = Application::getMsgStream().getGroup("CtrlPanel");
     gCtrlPanel.clear();
@@ -31,9 +35,8 @@ void Game::reset()
     auto &gtanks = Application::getMsgStream().getGroup("Tanks");
     gtanks.clear();
     //initialize players
-    int p = 2;
-    int pw = constants::windowWidth/p; //divide width into p parts
-    for(int i = 0;i < p; ++i)
+    int pw = constants::windowWidth/n_players; //divide width into p parts
+    for(int i = 0;i < n_players; ++i)
     {
         Tank* pTank = static_cast<Tank*>(world.addObj(WorldObject::TankType));
         gtanks.subscribe(pTank);

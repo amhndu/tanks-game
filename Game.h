@@ -16,6 +16,8 @@ public:
     void passEvent(sf::Event Event);
     void reset();
 
+    void newGame(int n_players = 2,Land::Landtype land_t = Land::Random);
+
     inline sf::Vector2f getLandNormal(int x,int y){ return land->getNormal(x,y); }
     inline float getLandNormAng(int x,int y){ return land->getNormAngle(x,y); }
     inline int getLandHeight(int x){ return land->getHeight(x); }

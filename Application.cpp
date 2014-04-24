@@ -32,6 +32,11 @@ void Application::run()
         currentState->update(dt.asSeconds());
     }
 }
+void Application::quit(const std::string& error)
+{
+    if(error != "none")
+        std::cerr << error << std::endl;
+}
 sf::Texture& Application::getTexture(TextureIdentifier id)
 {
     if(!ResourcesLoaded)
@@ -52,10 +57,9 @@ void Application::loadResources()
     textureMgr.load(TurretTexture,"data/turret.png") &&
     textureMgr.load(ExplosionA,"data/ExplosionAsmall.png") &&
     textureMgr.load(TurretTarget,"data/target.png") &&
-//    textureMgr.load(ExplosionB,"data/ExplosionB.png") &&
     textureMgr.load(ArrowDownSpriteSheet,"data/arrowdown.png") &&
     textureMgr.load(TitleBg,"data/title.png") &&
-    fontMgr.load(Sensation,"data/sansation.ttf") &&
+    fontMgr.load(FreeMono,"data/FreeMono.ttf") &&
     fontMgr.load(UbuntuCondensed,"data/Ubuntu-C.ttf")) )
         throw std::runtime_error("failed to load resources");
     else
@@ -66,7 +70,7 @@ void Application::changeState(AppStateType as)
     statesStack.push_back(as);
     msgStream.getGroup("EventListeners").unsubscribe(currentState);
     currentState = getState(as);
-    currentState->reset();
+    //currentState->reset();
     msgStream.getGroup("EventListeners").subscribe(currentState);
 }
 AppState* Application::getState(AppStateType as)

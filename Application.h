@@ -21,6 +21,7 @@ public:
     static MessageStream& getMsgStream() { return msgStream; }
     static void loadResources();
     static void run();
+    static void quit(const std::string& error = "none");
     static Game& getGame(){ return mGame; }
 private:
     static AppState* getState(AppStateType as);

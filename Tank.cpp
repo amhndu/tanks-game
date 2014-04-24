@@ -24,7 +24,7 @@ Tank::Tank() :
     velocity(),
     Name(),
     fadingLife(true),
-    fadingTimer()
+    fadingTimer(1)
 {
     Application::getGame().incCounter();
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
@@ -36,7 +36,7 @@ Tank::Tank() :
     lifeFill.setFillColor(sf::Color::Red);
     Name.setColor(sf::Color::Black);
     Name.setCharacterSize(15);
-    Name.setFont(Application::getFont(Sensation));
+    Name.setFont(Application::getFont(UbuntuCondensed));
 }
 Tank::~Tank()
 {

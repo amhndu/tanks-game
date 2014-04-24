@@ -5,8 +5,8 @@ GameOverScreen::GameOverScreen() :
     AppState(GameOverState),
     bgImg(),
     bgSpr(),
-    message("",Application::getFont(Sensation)),
-    gameOverText("Game Over !",Application::getFont(Sensation))
+    message("",Application::getFont(FreeMono)),
+    gameOverText("Game Over !",Application::getFont(FreeMono))
 {
     message.setColor(sf::Color::Black);
     gameOverText.setColor(sf::Color::Black);
