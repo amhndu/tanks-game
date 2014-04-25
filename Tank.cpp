@@ -28,7 +28,6 @@ Tank::Tank() :
 {
     Application::getGame().incCounter();
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
-    setPosition(sf::Vector2f());
     turret.setRotation(-45);
     lifeBg.setOutlineColor(sf::Color::Black);
     lifeBg.setOutlineThickness(1);
@@ -37,6 +36,7 @@ Tank::Tank() :
     Name.setColor(sf::Color::Black);
     Name.setCharacterSize(15);
     Name.setFont(Application::getFont(UbuntuCondensed));
+    setPosition(sf::Vector2f());
 }
 Tank::~Tank()
 {
@@ -71,6 +71,7 @@ void Tank::setPlayer(Player *p)
 {
     myOwner = p;
     Name.setString(p->getName());
+    setPosition(tank.getPosition());
     setLifeFill(p->getLife());
 }
 void Tank::setLifeFill(int l)

@@ -4,13 +4,12 @@
 TitleScreen::TitleScreen()  :
     AppState(TitleScreenState),
     bg(Application::getTexture(TitleBg)),
-    mainMenu(Application::getFont(FreeMono),40)
+    mainMenu(Application::getFont(FreeSans),40)
 {
     mainMenu.add("Play",sf::Color::White);
     mainMenu.add("Exit",sf::Color::White);
-    mainMenu.setSelectionBgColor(sf::Color(100,100,100,50));
-    mainMenu.setScrollBarColor(sf::Color(200,200,200));
-    mainMenu.create(0,0);
+    mainMenu.setSelectionBgColor(sf::Color(0,0,0,100));
+    mainMenu.create(constants::windowWidth,0);
     mainMenu.setPosition(0,300);
 }
 
@@ -34,10 +33,9 @@ void TitleScreen::update(float dt)
         switch(query)
         {
         case 0://Play
-            Application::changeState(GameState);
-            Application::getGame().reset();
+            Application::changeState(GameSetupState);
             break;
-        case 1:
+        case 1://Exit
             Application::quit();
             break;
         default:

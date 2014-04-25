@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "Missile.h"
 #include "utilities.h"
-#include "WorldText.h"
 
 Player::Player(Tank *val,const std::string& name) :
     myTank(val),

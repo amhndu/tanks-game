@@ -3,14 +3,14 @@
 
 WorldText::WorldText() :
     WorldObject(PassiveType),
-    text("",Application::getFont(FreeMono),20),
+    text("",Application::getFont(FreeSans),20),
     modifier([](WorldText& w,float t){return;})
 {
     text.setColor(sf::Color::Black);
 }
 WorldText::WorldText(std::function<void(WorldText&,float)> m) :
     WorldObject(PassiveType),
-    text("",Application::getFont(FreeMono),20),
+    text("",Application::getFont(FreeSans),20),
     modifier(m)
 {
     text.setColor(sf::Color::Black);

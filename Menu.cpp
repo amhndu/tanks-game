@@ -18,7 +18,7 @@ Menu::Menu(const sf::Font& f,int charSize,int linePad,int scrollBarWidth) :
     scrolled(0),
     scroll(false),
     clicked(-1),
-    clickTimer(0)
+    bgColor(sf::Color::Transparent)
 {
     selectionBg.setFillColor(sf::Color(210,210,210));
     scrollBar.setFillColor(sf::Color(100,100,100));
@@ -34,6 +34,10 @@ void Menu::draw(sf::RenderTarget &target)
     if(scroll)
         target.draw(scrollBar);
 }
+void Menu::clear()
+{
+    menuList.clear();
+}
 void Menu::add(const std::string& item,sf::Color textColor)
 {
     sfTextPtr newText(new sf::Text(item,font,characterSize));
@@ -46,9 +50,9 @@ void Menu::create(float width,float height)
     if(height == 0)
         height = menuList.size()*(linePadding+characterSize);
     else
-        height = round(height,linePadding+characterSize);
+        height = std::max(0.f,round(height,linePadding+characterSize));
 
-    itemsVisible = height/(linePadding+characterSize);
+    itemsVisible = size_t(height/(linePadding+characterSize));
     //max width of the sf::Texts of the menu items
     float maxwidth = (**std::max_element(menuList.begin(),menuList.end(),
                             [](sfTextPtr& a,sfTextPtr &b){ return a->getLocalBounds().width<b->getLocalBounds().width;})).getLocalBounds().width;
@@ -59,6 +63,7 @@ void Menu::create(float width,float height)
     if(width == 0)  width = maxwidth;
     else
         width = std::max(width,maxwidth);
+    rndrTxtre.clear(bgColor);
     rndrTxtre.create(width,height);
     view = rndrTxtre.getDefaultView();
     selectionBg.setSize(sf::Vector2f(width,linePadding+characterSize));
@@ -68,7 +73,7 @@ void Menu::create(float width,float height)
         scrollBar.setPosition(spr.getPosition().x+width,spr.getPosition().y+0);
     }
 
-    rndrTxtre.clear(sf::Color::Transparent);
+    rndrTxtre.clear(bgColor);
     rndrTxtre.draw(selectionBg);
     for(const auto &a : menuList)
     {
@@ -83,8 +88,6 @@ void Menu::step(float dt)
     int deltaScroll = 0;
     bool update = false;
 
-    clickTimer -= dt; //count down timer
-
     sf::Vector2f mouse = sf::Vector2f(sf::Mouse::getPosition(Application::getWindow()));
     sf::Vector2f relMouse = mouse - spr.getPosition();
     sf::Vector2f mouseInView = rndrTxtre.mapPixelToCoords(static_cast<sf::Vector2i>(relMouse));
@@ -97,17 +100,6 @@ void Menu::step(float dt)
             update = true;
         }
     }
-    else if(clickTimer <= 0 && spr.getGlobalBounds().contains(mouse))
-    {
-        clickTimer = 0.05;
-        if(mouseInView.y/(linePadding+characterSize) != marker/* && mouseInView.y/(linePadding+characterSize)-scrolled <= itemsVisible*/)
-        {
-            marker = mouseInView.y/(linePadding+characterSize);
-            update = true;
-        }
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            clicked = marker;
-    }
     if(update)  updateTexture(deltaScroll);
 }
 void Menu::passEvent(const sf::Event &event)
@@ -119,31 +111,51 @@ void Menu::passEvent(const sf::Event &event)
     {
         switch(event.key.code)
         {
-            case sf::Keyboard::Up:
-                if(--marker < 0)
-                {
-                    marker = menuList.size()-1;
-                    deltaScroll = menuList.size()-itemsVisible;
-                }
-                else if(marker < scrolled)
-                    deltaScroll = -1;
-                update = true;
-                break;
-            case sf::Keyboard::Down:
-                if(size_t(++marker) > menuList.size()-1)
-                {
-                    deltaScroll = -menuList.size()+itemsVisible;
-                    marker = 0;
-                }
-                else if(marker-scrolled+1>itemsVisible)
-                    deltaScroll = 1;
-                update = true;
-                break;
-            case sf::Keyboard::Return:
-                clicked = marker;
-                break;
-            default:
-                break;
+        case sf::Keyboard::Up:
+            if(--marker < 0)
+            {
+                marker = menuList.size()-1;
+                deltaScroll = menuList.size()-itemsVisible;
+            }
+            else if(marker < scrolled)
+                deltaScroll = -1;
+            update = true;
+            break;
+        case sf::Keyboard::Down:
+            if(size_t(++marker) > menuList.size()-1)
+            {
+                deltaScroll = -menuList.size()+itemsVisible;
+                marker = 0;
+            }
+            else if(marker-scrolled+1>itemsVisible)
+                deltaScroll = 1;
+            update = true;
+            break;
+        case sf::Keyboard::Return:
+            clicked = marker;
+            break;
+        default:
+            break;
+        }
+    }
+    else if(event.type == sf::Event::MouseMoved)
+    {
+        sf::Vector2f mouse(event.mouseMove.x,event.mouseMove.y);
+        sf::Vector2f mouseInView = rndrTxtre.mapPixelToCoords(sf::Vector2i(mouse) - sf::Vector2i(spr.getPosition()));
+        if(spr.getGlobalBounds().contains(mouse) && mouseInView.y/(linePadding+characterSize) != marker && mouseInView.y/(linePadding+characterSize)-scrolled <= menuList.size())
+        {
+            marker = mouseInView.y/(linePadding+characterSize);
+            update = true;
+        }
+    }
+    else if(event.type == sf::Event::MouseButtonPressed)
+    {
+        sf::Vector2f mouse(event.mouseButton.x,event.mouseButton.y);
+        sf::Vector2f mouseInView = rndrTxtre.mapPixelToCoords(sf::Vector2i(mouse) - sf::Vector2i(spr.getPosition()));
+        if(spr.getGlobalBounds().contains(mouse) && mouseInView.y/(linePadding+characterSize) != marker && mouseInView.y/(linePadding+characterSize)-scrolled <= menuList.size())
+        {
+            clicked = marker = mouseInView.y/(linePadding+characterSize);
+            update = true;
         }
     }
     else if(event.type == sf::Event::MouseWheelMoved)
@@ -176,7 +188,7 @@ void Menu::updateTexture(int deltaScroll)
         view.move(0,deltaScroll*(linePadding+characterSize));
     }
     rndrTxtre.setView(view);
-    rndrTxtre.clear(sf::Color::Transparent);
+    rndrTxtre.clear(bgColor);
     rndrTxtre.draw(selectionBg);
     for(const auto &a : menuList)
     {

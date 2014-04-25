@@ -8,6 +8,7 @@
 enum AppStateType
 {
     TitleScreenState,
+    GameSetupState,
     GameState,
     GameOverState
 };

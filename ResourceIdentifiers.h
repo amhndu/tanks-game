@@ -13,7 +13,7 @@ enum TextureIdentifier
 };
 enum FontIdentifier
 {
-    FreeMono,
+    FreeSans,
     UbuntuCondensed
 };
 

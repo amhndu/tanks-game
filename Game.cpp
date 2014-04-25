@@ -5,7 +5,6 @@
 */
 #include "Application.h"
 #include "constants.h"
-#include "WorldText.h"
 #include "CtrlPanel.h"
 #include <cassert>
 

@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "GameOverScreen.h"
 #include "TitleScreen.h"
+#include "GameSetupScreen.h"
 
 class Application
 {
@@ -34,6 +35,7 @@ private:
     static Game mGame;
     static GameOverScreen mGameOver;
     static TitleScreen titleState;
+    static GameSetupScreen mSetupScreen;
     static AppState* currentState;
 };
 

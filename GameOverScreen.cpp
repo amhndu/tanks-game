@@ -5,8 +5,8 @@ GameOverScreen::GameOverScreen() :
     AppState(GameOverState),
     bgImg(),
     bgSpr(),
-    message("",Application::getFont(FreeMono)),
-    gameOverText("Game Over !",Application::getFont(FreeMono))
+    message("",Application::getFont(FreeSans)),
+    gameOverText("Game Over !",Application::getFont(FreeSans))
 {
     message.setColor(sf::Color::Black);
     gameOverText.setColor(sf::Color::Black);
@@ -35,7 +35,7 @@ void GameOverScreen::update(float dt){}
 void GameOverScreen::passEvent(sf::Event Event)
 {
     if(Event.type == sf::Event::KeyPressed || Event.type == sf::Event::MouseButtonReleased)
-        Application::changeState(GameState);
+        Application::changeState(GameSetupState);
 }
 void GameOverScreen::receiveMessage(const Message& msg)
 {
@@ -43,6 +43,6 @@ void GameOverScreen::receiveMessage(const Message& msg)
     {
         const std::string &gcase = msg.getItem<std::string>(0);
         message.setString(gcase);
-//        reset();
+        reset();
     }
 }

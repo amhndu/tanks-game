@@ -4,6 +4,7 @@ void Application::run()
 {
     mainWindow.create(sf::VideoMode(constants::windowWidth,constants::windowHeight),"A Game feat. Tanks");
     mainWindow.setFramerateLimit(120);
+    mainWindow.setVerticalSyncEnabled(false);
     sf::Clock frameTimer;
     changeState(TitleScreenState);
     msgStream.getGroup("AllAppStates").subscribe(&mGame);
@@ -36,6 +37,7 @@ void Application::quit(const std::string& error)
 {
     if(error != "none")
         std::cerr << error << std::endl;
+    mainWindow.close();
 }
 sf::Texture& Application::getTexture(TextureIdentifier id)
 {
@@ -59,7 +61,7 @@ void Application::loadResources()
     textureMgr.load(TurretTarget,"data/target.png") &&
     textureMgr.load(ArrowDownSpriteSheet,"data/arrowdown.png") &&
     textureMgr.load(TitleBg,"data/title.png") &&
-    fontMgr.load(FreeMono,"data/FreeMono.ttf") &&
+    fontMgr.load(FreeSans,"data/FreeSans.ttf") &&
     fontMgr.load(UbuntuCondensed,"data/Ubuntu-C.ttf")) )
         throw std::runtime_error("failed to load resources");
     else
@@ -68,10 +70,9 @@ void Application::loadResources()
 void Application::changeState(AppStateType as)
 {
     statesStack.push_back(as);
-    msgStream.getGroup("EventListeners").unsubscribe(currentState);
+//    msgStream.getGroup("EventListeners").unsubscribe(currentState);
     currentState = getState(as);
-    //currentState->reset();
-    msgStream.getGroup("EventListeners").subscribe(currentState);
+//    msgStream.getGroup("EventListeners").subscribe(currentState);
 }
 AppState* Application::getState(AppStateType as)
 {
@@ -83,6 +84,8 @@ AppState* Application::getState(AppStateType as)
         return &mGame;
     case GameOverState:
         return &mGameOver;
+    case GameSetupState:
+        return &mSetupScreen;
     }
     return nullptr;
 }
@@ -96,6 +99,7 @@ sf::RenderWindow Application::mainWindow;
 Game Application::mGame;
 GameOverScreen Application::mGameOver;
 TitleScreen Application::titleState;
+GameSetupScreen Application::mSetupScreen;
 AppState* Application::currentState;
 int main()
 {

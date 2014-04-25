@@ -26,8 +26,10 @@ public:
     //calling with no arguments means set it to fit all the menu items,
     //width >= max width of menu items
     //height is rounded to a nearby multiple of (linePadding+characterSize), and the extra menu items are scrollable
+    //and clamped to the maximum height of all the items
     void create(float width = 0,float height = 0);
     void passEvent(const sf::Event& event);
+    void clear();//clear and reset the menu items
     //clicked < 0 means not clicked yet, after querying it is set to -1
     inline int querySelecion()
     {
@@ -54,6 +56,7 @@ public:
     inline void setActive(bool val){ active = val; }
     inline bool getActive(){ return active; }
     inline const sf::Vector2f& getSize(){ return view.getSize(); }
+    inline void setBackgroundColor(const sf::Color& theColor){ bgColor=theColor; }
 private:
     void updateTexture(int deltaScroll = 0);
     sf::RenderTexture rndrTxtre;
@@ -71,7 +74,7 @@ private:
     int scrolled;//no of items above not visible
     bool scroll;
     int clicked;//on item
-    float clickTimer;
+    sf::Color bgColor;
 };
 
 #endif // MENU_H
