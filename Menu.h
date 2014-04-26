@@ -18,6 +18,13 @@ public:
         add(str);
         add(T...);
     }
+    template<typename... Tail>
+    inline void add(const sf::Color& color,const std::string& str,Tail... T)
+    {
+        add(str,color);
+        add(color,T...);
+    }
+    void add(const sf::Color& color){}//does nothing required for the variadic template recursion when Tail is nothing
     //the string mustn't contain any escape characters like '\n' and '\v' i.e they should only
     //span one line
     void add(const std::string& item,sf::Color textColor = sf::Color::Black);

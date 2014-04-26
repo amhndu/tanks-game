@@ -50,13 +50,13 @@ void Menu::create(float width,float height)
     if(height == 0)
         height = menuList.size()*(linePadding+characterSize);
     else
-        height = std::max(0.f,round(height,linePadding+characterSize));
+        height = std::min(menuList.size()*float(linePadding+characterSize),round(height,linePadding+characterSize));
 
-    itemsVisible = size_t(height/(linePadding+characterSize));
+    itemsVisible = (height/(linePadding+characterSize));
     //max width of the sf::Texts of the menu items
     float maxwidth = (**std::max_element(menuList.begin(),menuList.end(),
                             [](sfTextPtr& a,sfTextPtr &b){ return a->getLocalBounds().width<b->getLocalBounds().width;})).getLocalBounds().width;
-    if(itemsVisible < menuList.size())
+    if(size_t(itemsVisible) < menuList.size())
     {
         scroll = true;
     }
@@ -170,7 +170,7 @@ void Menu::passEvent(const sf::Event &event)
                 mouse.y += deltaScroll*(linePadding+characterSize);//adjust for the new scroll
                 mouse -= spr.getPosition();
                 mouse = rndrTxtre.mapPixelToCoords(static_cast<sf::Vector2i>(mouse));
-                if(mouse.y/(linePadding+characterSize) != marker && mouse.y/(linePadding+characterSize)-scrolled <= itemsVisible)
+                if(mouse.y/(linePadding+characterSize) != marker/* && mouse.y/(linePadding+characterSize)-scrolled <= itemsVisible*/)
                     marker = mouse.y/(linePadding+characterSize);
             }
         }
@@ -184,8 +184,8 @@ void Menu::updateTexture(int deltaScroll)
     if(deltaScroll)
     {
         scrolled += deltaScroll;
-        scrollBar.setPosition(scrollBar.getPosition().x,spr.getPosition().y+(view.getSize().y-scrollBar.getSize().y)*scrolled/(menuList.size()-itemsVisible));
         view.move(0,deltaScroll*(linePadding+characterSize));
+        scrollBar.setPosition(scrollBar.getPosition().x,spr.getPosition().y+(view.getSize().y-scrollBar.getSize().y)*scrolled/(menuList.size()-itemsVisible));
     }
     rndrTxtre.setView(view);
     rndrTxtre.clear(bgColor);

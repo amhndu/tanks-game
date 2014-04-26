@@ -163,7 +163,7 @@ void Tank::step(float dt)
         }
     }
     sf::Vector2f dist = sf::Vector2f(sf::Mouse::getPosition(Application::getWindow())) - tank.getPosition();
-    if(sq(dist.x)+sq(dist.y) <= sq(50))
+    if(Application::getGame().isPlayerTurn() && sq(dist.x)+sq(dist.y) <= sq(50))
     {
         fadingLife = true;
         fadingTimer = 1;
