@@ -97,7 +97,7 @@ void CtrlPanel::step(float dt)
         if(settingAngle)
             pl->rotateTurret( delta/2 );
         else
-            changePower( delta,pl );
+            changePower( delta/2,pl );
         prevMouseX = mouse.x;
         int mouse_margin = 20;
         if(mouse.x < mouse_margin) //workaround for mouse lock
