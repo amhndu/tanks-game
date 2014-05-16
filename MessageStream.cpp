@@ -1,4 +1,5 @@
 #include "MessageStream.h"
+#include <iostream>
 
 MessageStream::MessageStream()
 {
@@ -22,4 +23,7 @@ void MessageStream::sendMessage(const Message &msg,std::string grp)
     auto it = groups.find(grp);
     if(it != groups.end())
         it->second.sendMessage(msg);
+    else
+        std::cerr << "Error : MessageStream::sendMessage : Message group \""
+                    << grp << "\"not found." << std::endl;
 }

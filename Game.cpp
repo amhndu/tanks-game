@@ -13,7 +13,7 @@ Game::Game() :
     AppState(GameState),
     playerActive(0),
     counter(0),
-    landSliding(true),
+    landSliding(false),
     land(nullptr)
 {}
 void Game::reset()

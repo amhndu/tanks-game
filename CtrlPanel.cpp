@@ -95,12 +95,12 @@ void CtrlPanel::step(float dt)
         sf::Vector2i mouse = sf::Mouse::getPosition(Application::getWindow());
         int delta = mouse.x-prevMouseX;
         if(settingAngle)
-            pl->rotateTurret( delta );
+            pl->rotateTurret( delta/2 );
         else
             changePower( delta,pl );
         prevMouseX = mouse.x;
         int mouse_margin = 20;
-        if(mouse.x < mouse_margin) //to allow continuous moving the mouse while setting the angle
+        if(mouse.x < mouse_margin) //workaround for mouse lock
         {
             sf::Mouse::setPosition(sf::Vector2i(constants::windowWidth-mouse_margin-1,mouse.y),Application::getWindow());
             prevMouseX = constants::windowWidth-mouse_margin-1;
