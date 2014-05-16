@@ -9,7 +9,13 @@
 #include <cassert>
 
 //#define STEPPED
-Game::Game() : AppState(GameState),counter(0) {}
+Game::Game() :
+    AppState(GameState),
+    playerActive(0),
+    counter(0),
+    landSliding(true),
+    land(nullptr)
+{}
 void Game::reset()
 {
     newGame();
@@ -63,7 +69,7 @@ void Game::update(float dt)
             Application::changeState(GameOverState);
             reset();
         }
-        else if(players.size() == 0)
+        else if(players.empty())
         {
             Application::getMsgStream().sendMessage(Message("GameOver",
                                                             std::string("Game Drawn")),"AllAppStates");
@@ -81,18 +87,6 @@ void Game::passEvent(sf::Event Event)
     {
         switch(Event.key.code)
         {
-        case sf::Keyboard::C:
-            reset();
-            break;
-        case sf::Keyboard::H:
-            land->genHeightMap(Land::Hilly);
-            break;
-        case sf::Keyboard::F:
-            land->genHeightMap(Land::Flats);
-            break;
-        case sf::Keyboard::V:
-            land->genHeightMap(Land::Valley);
-            break;
         case sf::Keyboard::Left:
             if( isPlayerTurn() && players[playerActive] != nullptr)
                 players[playerActive]->moveTank(-1);

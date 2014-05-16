@@ -3,7 +3,7 @@
 #include "Land.h"
 #include <iostream>
 
-World::World() { }
+World::World() : timer(0) { }
 //WorldObject* World::addObj(WorldObjectptr obj)
 //{
 //    objects.push_back(std::move(obj));
