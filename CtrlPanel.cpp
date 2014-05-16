@@ -174,7 +174,7 @@ void CtrlPanel::receiveMessage(const Message& msg)
                 Application::getWindow().setMouseCursorVisible(false);
                 prevMouseX = mcoord.x;
                 gaugeBg.setOutlineThickness(2);
-                gaugeBg.setOutlineColor(sf::Color(200,150,150,200));
+                gaugeBg.setOutlineColor(sf::Color::Red);
             }
             else if(_game.isPlayerTurn() && fire.getGlobalBounds().contains(sf::Vector2f(event.mouseButton.x,event.mouseButton.y)) )
                 pl->fire();
