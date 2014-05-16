@@ -25,7 +25,6 @@ set(SOURCES
     "${PROJECT_SOURCE_DIR}/Player.cpp"
     "${PROJECT_SOURCE_DIR}/simplexnoise.cpp"
     "${PROJECT_SOURCE_DIR}/Tank.cpp"
-    "${PROJECT_SOURCE_DIR}/Target.cpp"
     "${PROJECT_SOURCE_DIR}/TitleScreen.cpp"
     "${PROJECT_SOURCE_DIR}/utilities.cpp"
     "${PROJECT_SOURCE_DIR}/WeaponPostEffects.cpp"
