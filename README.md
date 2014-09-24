@@ -22,6 +22,17 @@ Download the source or clone the repository from github :
 https://github.com/amhndu/tanks-game
 and use cmake (or cmake-gui) to produce make,nmake or whatever...
 
+On a linux machine , these are the typical steps
+<pre>
+$ git clone https://github.com/amhndu/tanks-game
+    #Or otherwise only download the source w/o git files
+    #wget https://github.com/amhndu/tanks-game/archive/master.zip and unzip
+$ cd tanks-game
+$ cmake .  #The dot it important
+$ make
+    #Now that it is compiled ,you can run it .
+$ ./miniTanks
+</pre>
 ###Executables:###
 These are outdated.
 https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip (compiled using g++ 4.8.1)
