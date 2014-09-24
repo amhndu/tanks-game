@@ -10,6 +10,9 @@
     #include <iostream>
     #define PRINT_VAR(X) {std::cout << (#X) << " : " << (X) << std::endl;}
     #endif // DBG
+#ifndef M_PI
+    #define M_PI 3.14159265358998
+#endif
 
 bool inline isInWindow(int x, int y)
 {
