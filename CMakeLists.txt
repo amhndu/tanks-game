@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 project(miniTanks)
 
 # Specify C++11 flag for g++
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
 endif()
 
