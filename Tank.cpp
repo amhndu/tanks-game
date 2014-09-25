@@ -178,10 +178,10 @@ void Tank::step(float dt)
         {
             const float rate = 255.0/1;//fade out in 1 second
             int dAlpha = rate*dt;
-            lifeFill.setFillColor(lifeFill.getFillColor()-sf::Color(0,0,0,dAlpha));
-            lifeBg.setFillColor(lifeBg.getFillColor()-sf::Color(0,0,0,dAlpha));
-            lifeBg.setOutlineColor(lifeBg.getOutlineColor()-sf::Color(0,0,0,dAlpha));
-            Name.setColor(Name.getColor()-sf::Color(0,0,0,dAlpha));
+            lifeFill.setFillColor(lifeFill.getFillColor()+sf::Color(0,0,0,-dAlpha)); //operator- not added in the "stable" version of SFML 2.1
+            lifeBg.setFillColor(lifeBg.getFillColor()+sf::Color(0,0,0,-dAlpha));
+            lifeBg.setOutlineColor(lifeBg.getOutlineColor()+sf::Color(0,0,0,-dAlpha));
+            Name.setColor(Name.getColor()+sf::Color(0,0,0,-dAlpha));
         }
         else
             fadingLife = false;
