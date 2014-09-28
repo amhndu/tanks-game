@@ -1,4 +1,5 @@
-#tanks-game (made by Amish Kumar Naidu)#
+#miniTanks#
+####(made by Amish Kumar Naidu)####
 
 This is an artillery , turn-based 2d game I made, which is far from complete yet but it does have some gameplay.
 It is inspired from Pocket Tanks and Scorched Earth.
@@ -23,7 +24,7 @@ https://github.com/amhndu/tanks-game
 and use cmake (or cmake-gui) to produce make,nmake or whatever...
 
 On a linux machine , these are the typical steps
-<pre>
+```sh
 $ git clone https://github.com/amhndu/tanks-game
     #Or otherwise only download the source w/o git files
     #wget https://github.com/amhndu/tanks-game/archive/master.zip and unzip
@@ -32,7 +33,8 @@ $ cmake .  #The dot it important
 $ make
     #Now that it is compiled ,you can run it .
 $ ./miniTanks
-</pre>
+```
+
 ###Executables:###
 These are outdated.
 https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip (compiled using g++ 4.8.1)
@@ -44,4 +46,4 @@ These are statically linked 32-bit executables.
 
 For any comments/advice or just to say hi :)
 
-email me : amhndu at gmail dot com
+email me : amhndu@gmail.com
