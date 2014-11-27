@@ -21,7 +21,7 @@ It is a very simple game , destroy other tanks and you win, with only one type o
 To compile you need a C++11 compiler and SFML 2.1.
 Download the source or clone the repository from github :
 https://github.com/amhndu/tanks-game
-and use cmake (or cmake-gui) to produce make,nmake or whatever...
+and use cmake (or cmake-gui) to produce makefiles , project files et al...
 
 On a linux machine , these are the typical steps
 ```sh
@@ -36,13 +36,13 @@ $ ./miniTanks
 ```
 
 ###Executables:###
-These are outdated.
+These are outdated by a few commits (which were only some fixes).
 https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip (compiled using g++ 4.8.1)
 https://www.dropbox.com/s/v4shlyt8j8odv4e/tanks-bin-linux32.tar.gz (compiled using VC 2013 and requires VC2013 redistributable)
 These are statically linked 32-bit executables.
 
 ###Video:###
-[Youtube link](http://www.youtube.com/watch?v=YbG_ej2fQKE)
+[Youtube Video](http://www.youtube.com/watch?v=YbG_ej2fQKE)
 
 For any comments/advice or just to say hi :)
 
