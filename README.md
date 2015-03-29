@@ -43,7 +43,7 @@ These are statically linked 32-bit executables.
 [Youtube Video](http://www.youtube.com/watch?v=YbG_ej2fQKE)
 
 ###License
-No rights reserved but in the unlikely event that you use anything, you should drop me a [mail](mailto:amhndu@gmail.com) and link to the [GitHub repository](https://github.com/amhndu/tanks-game) somewhere.
+No rights reserved but in the unlikely event that you use anything, please drop me a [mail](mailto:amhndu@gmail.com).
 
 ###Contact me
 email : amhndu@gmail.com
