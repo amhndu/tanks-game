@@ -1,37 +1,35 @@
 #Mini Tanks#
 
-This is an artillery , turn-based 2d game I made, which is far from complete yet but it does have some gameplay.
-It is inspired from Pocket Tanks and Scorched Earth.
-It features a fully destructible procedurally generated terrain , generated using simplex noise.
-SFML is used for Window creation,Graphics and Input.
+This is an artillery, turn-based 2d game I made, which is far from complete yet but with mininal gameplay.  
+It is inspired from Pocket Tanks and Scorched Earth.  
+It features a fully destructible procedurally generated terrain, generated using simplex noise.  
+SFML is used for Window creation, Graphics and Input.
 
 ###Controls and Objective###
-Use mouse to click on the HUD to start setting Rotation(or press R) of the turret or power by moving your mouse left or right.
-While setting rotation you'll see a cross hair helping you set the angle and
-while setting power , the power gauge's outline will change from Black to Red.
-Use Arrow Keys Left or Right to move the Tank.
-Click on "FIRE" on the HUD or press Space to fire.
-It is a very simple game , destroy other tanks and you win, with only one type of weapon.
+Use your mouse to click on the HUD or press R to set the Rotation of the turret, similarly set power by clicking the power bar (or by hovering the cursor above it and using your scroll wheel)  
+Use Arrow Keys Left or Right to move the Tank.  
+Click on "FIRE" on the HUD or press Space to fire.  
+The objective is very simple, destroy other tanks and you win.
 
 ###Source:###
 [Github: amhndu/tanks-game](https://github.com/amhndu/tanks-game).
 
 ###Compiling:###
-To compile you need a C++11 compiler and SFML 2.1.
+To compile you need a C++11 compiler and SFML 2.1.  
 Download the source or clone the repository from github :
 https://github.com/amhndu/tanks-game
-and use cmake (or cmake-gui) to produce makefiles , project files et al...
+and use cmake (or cmake-gui) to produce makefiles and/or project files.  
 
-On a linux machine , these are the typical steps
+On a linux machine, these are the typical steps
 ```sh
 $ git clone https://github.com/amhndu/tanks-game
-    #Or otherwise only download the source w/o git files with:
+    #Or otherwise download the source w/o git files and the entire history with:
     #wget https://github.com/amhndu/tanks-game/archive/master.zip
     #and then unzip
 $ cd tanks-game
 $ cmake .  #The dot it important
 $ make
-    #Now that it is compiled ,you can run it .
+    #Now that it is compiled, you can run it .
 $ ./miniTanks
 ```
 
@@ -44,9 +42,8 @@ These are statically linked 32-bit executables.
 ###Video:###
 [Youtube Video](http://www.youtube.com/watch?v=YbG_ej2fQKE)
 
-For any comments/advice or just to say hi :)
-
 ###License
-No rights reserved but in the unlikely event that you use anything , you should drop me a [mail](mailto:amhndu@gmail.com) and link to the [GitHub repository](https://github.com/amhndu/tanks-game).
+No rights reserved but in the unlikely event that you use anything, you should drop me a [mail](mailto:amhndu@gmail.com) and link to the [GitHub repository](https://github.com/amhndu/tanks-game) somewhere.
 
-email me : amhndu@gmail.com
+###Contact me
+email : amhndu@gmail.com
