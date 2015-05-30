@@ -1,5 +1,7 @@
 #Mini Tanks#
 
+Project page : http://amhndu.github.io/Projects/mini-tanks.html
+
 This is an artillery, turn-based 2d game I made, which is far from complete yet but with mininal gameplay.  
 It is inspired from Pocket Tanks and Scorched Earth.  
 It features a fully destructible procedurally generated terrain, generated using simplex noise.  
@@ -35,8 +37,9 @@ $ ./miniTanks
 
 ###Executables:###
 These are outdated by a few commits (which were only some fixes).
-https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip (compiled using g++ 4.8.1)
-https://www.dropbox.com/s/v4shlyt8j8odv4e/tanks-bin-linux32.tar.gz (compiled using VC 2013 and requires VC2013 redistributable)
+https://www.dropbox.com/s/v4shlyt8j8odv4e/tanks-bin-linux32.tar.gz (compiled using g++ 4.8.1)
+https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip (compiled using VC 2013 and requires VC2013 redistributable)
+
 These are statically linked 32-bit executables.
 
 ###Video:###
