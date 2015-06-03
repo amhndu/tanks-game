@@ -52,4 +52,4 @@ Note : These are outdated by a few commits (which were only some fixes). It is r
 No rights have been reserved, but in the event that you use anything, please drop me a mail and give me attribution by linking here.
 
 ###Contact me
-email : amhndu --at-- gmail --dot-- com
+Email : amhndu --at-- gmail --period-- com
