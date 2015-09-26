@@ -44,7 +44,7 @@ CtrlPanel::CtrlPanel(Game& g) :
     gaugeBg.setOutlineColor (sf::Color::Black);
     gaugeFill.setPosition   (gaugeBg.getPosition());
     gaugeFill.setFillColor  (sf::Color::Blue);
-    crosshair.setOrigin(-60,0);
+    crosshair.setOrigin(-60, crosshair.getLocalBounds().height / 2);
 }
 void CtrlPanel::draw(sf::RenderTarget &target)
 {

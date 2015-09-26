@@ -28,6 +28,7 @@ Tank::Tank() :
 {
     Application::getGame().incCounter();
     tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height);
+    turret.setOrigin(0, turret.getLocalBounds().height / 2);
     turret.setRotation(-45);
     lifeBg.setOutlineColor(sf::Color::Black);
     lifeBg.setOutlineThickness(1);
@@ -178,10 +179,10 @@ void Tank::step(float dt)
         {
             const float rate = 255.0/1;//fade out in 1 second
             int dAlpha = rate*dt;
-            lifeFill.setFillColor(lifeFill.getFillColor()+sf::Color(0,0,0,-dAlpha)); //operator- not added in the "stable" version of SFML 2.1
-            lifeBg.setFillColor(lifeBg.getFillColor()+sf::Color(0,0,0,-dAlpha));
-            lifeBg.setOutlineColor(lifeBg.getOutlineColor()+sf::Color(0,0,0,-dAlpha));
-            Name.setColor(Name.getColor()+sf::Color(0,0,0,-dAlpha));
+            lifeFill.setFillColor(lifeFill.getFillColor()-sf::Color(0,0,0,dAlpha));
+            lifeBg.setFillColor(lifeBg.getFillColor()-sf::Color(0,0,0,dAlpha));
+            lifeBg.setOutlineColor(lifeBg.getOutlineColor()-sf::Color(0,0,0,dAlpha));
+            Name.setColor(Name.getColor()-sf::Color(0,0,0,dAlpha));
         }
         else
             fadingLife = false;
