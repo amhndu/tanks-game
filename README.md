@@ -2,9 +2,9 @@
 
 Project page : http://amhndu.github.io/Projects/mini-tanks.html
 
-A turn-based, artillery game where you destroy other tanks to win. Features a fully destructible, procedurally generated terrain. Play multiplayer with upto 8 local players.
-It was inspired from Pocket Tanks and Scorched Earth.
-Programmed with C++11 with the SFML library for graphics.
+A turn-based, artillery game where you destroy other tanks to win in a fully destructible, procedurally generated terrain. Supports multiplayer with upto 8 local players.
+This was inspired by Pocket Tanks and Scorched Earth.
+Programmed in C++11 with SFML used for graphics.
 
 ###Controls and Objective###
 Use your mouse to click on the HUD or press R to set the Rotation of the turret, similarly set power by clicking the power bar (or by hovering the cursor above it and using your scroll wheel)  
