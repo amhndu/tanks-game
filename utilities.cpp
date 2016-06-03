@@ -17,8 +17,8 @@ bool intersects(sf::CircleShape circle, sf::RectangleShape rect)
     //turn the circle to (-angle of rect) so that rect OBB is now AABB
     circle.setPosition(RotatePoint(circle.getPosition(),rect.getPosition(),TO_RAD(-rect.getRotation())));
     sf::Vector2f circleDistance;
-    circleDistance.x = abs(circle.getPosition().x - rect.getPosition().x);
-    circleDistance.y = abs(circle.getPosition().y - rect.getPosition().y);
+    circleDistance.x = std::fabs(circle.getPosition().x - rect.getPosition().x);
+    circleDistance.y = std::fabs(circle.getPosition().y - rect.getPosition().y);
     //check intersection with the edges
     if (circleDistance.x > (rect.getLocalBounds().width/2 + circle.getRadius())) { return false; }
     if (circleDistance.y > (rect.getLocalBounds().height/2 + circle.getRadius())) { return false; }

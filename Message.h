@@ -2,6 +2,7 @@
 #define MESSAGE_H
 #include <memory>
 #include <vector>
+#include <string>
 
 class MsgItemBase{};
 

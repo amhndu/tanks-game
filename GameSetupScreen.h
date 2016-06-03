@@ -4,6 +4,9 @@
 #include "AppState.h"
 #include "Menu.h"
 
+#include <string>
+#include <array>
+
 class GameSetupScreen : public AppState
 {
     public:

@@ -1,5 +1,6 @@
 #ifndef UTILITIES_INCLUDED
 #define UTILITIES_INCLUDED
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #define LERP(t,a,b) ( (a) + (t) * ((b) - (a)) ) //liner interpolation
 #define TO_RAD(x) ( (x)*M_PI/180.0 )
