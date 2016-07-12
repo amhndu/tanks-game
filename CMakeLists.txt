@@ -40,6 +40,8 @@ else()
         message("-> Make sure the SFML libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
 endif()
 
+file(COPY data DESTINATION .)
+
 add_executable(miniTanks ${SOURCES})
 
 target_link_libraries(miniTanks ${SFML_LIBRARIES})
