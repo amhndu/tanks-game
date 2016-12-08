@@ -1,7 +1,7 @@
 Mini Tanks
 =============
 
-Project page : http://amhndu.github.io/Projects/mini-tanks.html
+Project page : http://amhndu.me/Projects/mini-tanks.html
 
 A turn-based, artillery game where you destroy other tanks to win in a fully destructible, procedurally generated terrain. Supports multiplayer with upto 8 local players.
 This was inspired by Pocket Tanks and Scorched Earth.
@@ -20,11 +20,11 @@ Source:
 
 Screenshots
 ------------------------
-![Screenshot 1](http://amhndu.github.io/Projects/screenshots/tanks0.jpg)
-![Screenshot 2](http://amhndu.github.io/Projects/screenshots/tanks1.jpg)
-![Screenshot 3](http://amhndu.github.io/Projects/screenshots/tanks2.jpg)
-![Screenshot 4](http://amhndu.github.io/Projects/screenshots/tanks3.jpg)
-![Screenshot 5](http://amhndu.github.io/Projects/screenshots/tanks4.jpg)
+![Screenshot 1](http://amhndu.me/Projects/screenshots/tanks0.jpg)
+![Screenshot 2](http://amhndu.me/Projects/screenshots/tanks1.jpg)
+![Screenshot 3](http://amhndu.me/Projects/screenshots/tanks2.jpg)
+![Screenshot 4](http://amhndu.me/Projects/screenshots/tanks3.jpg)
+![Screenshot 5](http://amhndu.me/Projects/screenshots/tanks4.jpg)
 
 Video
 -------------------------
