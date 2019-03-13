@@ -55,10 +55,6 @@ Note : These are outdated by a few commits (which were only some fixes). It is r
 [Windows 32-bit](https://www.dropbox.com/s/ixu8g65mszea4b4/tanks-bin-win32.zip) (compiled using VC 2013 and requires VC2013 redistributable)
 
 
-License
----------------------------
-No rights have been reserved, but in the event that you use anything, please drop me a mail and give me attribution by linking here.
-
 Contact me
 ----------------------------
 Email : amhndu --at-- gmail --period-- com
