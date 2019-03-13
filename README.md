@@ -20,11 +20,11 @@ Source:
 
 Screenshots
 ------------------------
-![Screenshot 1](http://amhndu.github.io/Projects/screenshots/tanks0.jpg)
-![Screenshot 2](http://amhndu.github.io/Projects/screenshots/tanks1.jpg)
-![Screenshot 3](http://amhndu.github.io/Projects/screenshots/tanks2.jpg)
-![Screenshot 4](http://amhndu.github.io/Projects/screenshots/tanks3.jpg)
-![Screenshot 5](http://amhndu.github.io/Projects/screenshots/tanks4.jpg)
+![Screenshot 1](http://amhndu.github.io/screenshots/tanks0.jpg)
+![Screenshot 2](http://amhndu.github.io/screenshots/tanks1.jpg)
+![Screenshot 3](http://amhndu.github.io/screenshots/tanks2.jpg)
+![Screenshot 4](http://amhndu.github.io/screenshots/tanks3.jpg)
+![Screenshot 5](http://amhndu.github.io/screenshots/tanks4.jpg)
 
 Video
 -------------------------
