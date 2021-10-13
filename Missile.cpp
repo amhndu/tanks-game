@@ -35,23 +35,26 @@ void Missile::setAcceleration(double x, double y)
 }
 void Missile::handleCollision(WorldObject &b)
 {
-    switch(b.type)
-    {
-    case WorldObject::TankType:
+    if(b.type == WorldObject::TankType)
     {
         Tank &t = static_cast<Tank&>(b);
         if(intersects(projectile,t.getTankRect()))
+	{
             explode();
+    	}
+	break;
     }
-    break;
-    case WorldObject::LandType:
+    if(b.type == WorldObject::LandType)
     {
         Land &l = static_cast<Land&>(b);
         if(projectile.getPosition().y + projectile.getRadius() > (constants::windowHeight - l.getHeight(projectile.getPosition().x)))
+	{
             explode();
+	}
+	break;
     }
-    break;
-    default:
+    else
+    {
         break;
     }
 }
